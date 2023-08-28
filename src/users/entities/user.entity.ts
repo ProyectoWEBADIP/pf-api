@@ -7,13 +7,13 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { v4 } from 'uuid';
+import { V4Options } from 'uuid';
 import { Profile } from './profile.entity';
 
 @Entity({ name: 'users' })
 export class User {
-  @PrimaryGeneratedColumn()
-  id: typeof v4;
+  @PrimaryGeneratedColumn("uuid")
+  id: string;
   @Column({ unique: true })
   username: string;
   @Column({ unique: true })

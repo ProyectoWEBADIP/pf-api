@@ -21,27 +21,34 @@ export class UsersService {
     return `This action returns all users`;
   }
 
-  async findOneById(id: number) {
-    return `This action returns a #${id} user`;
+  async findOneById(id: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        id,
+      },
+    });
+
+    if (user) {
+      return user;
+    } else {
+      return new HttpException('User not found.', HttpStatus.NOT_FOUND);
+    }
   }
 
-  async updateUser(id: number, userFields: UpdateUserDto) {
-    // const userFound = await this.userRepository.findOne({ where: { id } });
-    // if (userFound) {
-    //   await this.userRepository.update({ id }, userFields);
-    //   if (userFields.password && !userFields.username) {
-    //     return `You've updated your password.`;
-    //   } else if (!userFields.password && userFields.username) {
-    //     return `You've updated your username.`;
-    //   } else {
-    //     return `You've updated your username and your password.`;
-    //   }
-    // } else {
-    //   return new HttpException('User not found', HttpStatus.NOT_FOUND);
-    // }
+  async updateUser(id: string, userFields: UpdateUserDto) {
+    const userFound = await this.userRepository.findOneById(id);
+    if (userFound) {
+      await this.userRepository.update(id, userFields);
+      return `Tus datos fueron actualizados con éxito.`;
+    } else {
+      return new HttpException(
+        'No se encontró al usuario.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
   }
 
-  async removeUser(id: number) {
+  async removeUser(id: string) {
     return `This action removes a #${id} user`;
   }
 }

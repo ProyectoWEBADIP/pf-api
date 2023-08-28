@@ -26,7 +26,7 @@ export class User {
   // deletedAt: Date           //! PARA BORRADO LOGICO
   @Column({ nullable: true })
   authStrategy: string;
-  @Column()
+  @Column({nullable:true})
   active: boolean;
   @OneToOne(() => Profile)
   @JoinColumn()

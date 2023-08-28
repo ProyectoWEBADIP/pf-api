@@ -14,11 +14,28 @@ export class UsersService {
     @InjectRepository(Profile) private profileRepository: Repository<Profile>,
   ) {}
   async createUser(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+    const findUser = await this.userRepository.findOne({
+      where: [
+        {
+          username: createUserDto.username,
+        },
+        { email: createUserDto.email },
+      ],
+    });
+    if (findUser?.username === createUserDto.username) {
+      return new HttpException(
+        'El nombre de usuario ya existe.',
+        HttpStatus.CONFLICT,
+      );
+    } else if (findUser?.email === createUserDto.email) {
+      return new HttpException('El email ya existe.', HttpStatus.CONFLICT);
+    }
+    const newUser = await this.userRepository.create(createUserDto);
+    return await this.userRepository.save(newUser);
   }
 
   async findAllUsers() {
-    return `This action returns all users`;
+    return await this.userRepository.find();
   }
 
   async findOneById(id: string) {

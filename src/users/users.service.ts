@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -25,8 +25,20 @@ export class UsersService {
     return `This action returns a #${id} user`;
   }
 
-  async updateUser(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async updateUser(id: number, userFields: UpdateUserDto) {
+    // const userFound = await this.userRepository.findOne({ where: { id } });
+    // if (userFound) {
+    //   await this.userRepository.update({ id }, userFields);
+    //   if (userFields.password && !userFields.username) {
+    //     return `You've updated your password.`;
+    //   } else if (!userFields.password && userFields.username) {
+    //     return `You've updated your username.`;
+    //   } else {
+    //     return `You've updated your username and your password.`;
+    //   }
+    // } else {
+    //   return new HttpException('User not found', HttpStatus.NOT_FOUND);
+    // }
   }
 
   async removeUser(id: number) {

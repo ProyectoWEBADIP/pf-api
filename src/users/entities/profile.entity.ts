@@ -12,9 +12,9 @@ export class Profile {
   @Column()
   lastName: string;
   @Column()
-  age: number;
-  @Column()
   birthDate: Date;
   @Column()
   image: string;
+  @Column()
+  dni: string
 }

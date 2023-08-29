@@ -26,7 +26,6 @@ export class AuthController {
   @Get('profile')
   @UseGuards(AuthGuard)
   userProfile(
-    //Recibo las request (como el body por ejemplo)
     @Request()
     req,
   ) {

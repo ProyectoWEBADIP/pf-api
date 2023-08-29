@@ -21,8 +21,8 @@ export class User {
   password: string;
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
-  // @DeleteDateColumn()
-  // deletedAt: Date           //! PARA BORRADO LOGICO
+  @DeleteDateColumn()
+  deletedAt: Date           //! PARA BORRADO LOGICO
   @Column({ nullable: true })
   authStrategy: string;
   @Column({nullable:true})

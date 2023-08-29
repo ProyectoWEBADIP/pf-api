@@ -10,34 +10,47 @@ import { CreateProfileDto } from './dto/create-profile.dto';
 @Injectable()
 export class UsersService {
   constructor(
-    @InjectRepository(User) private userRepository: Repository<User>,
-    @InjectRepository(Profile) private profileRepository: Repository<Profile>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(Profile)
+    private readonly profileRepository: Repository<Profile>,
   ) {}
-  async createUser(createUserDto: CreateUserDto) {
+  //FUNCION REGISTER
+  async createUser({ email, password, username }: CreateUserDto) {
     const findUser = await this.userRepository.findOne({
       where: [
         {
-          username: createUserDto.username,
+          username: username,
         },
-        { email: createUserDto.email },
+        { email: email },
       ],
     });
-    if (findUser?.username === createUserDto.username) {
+    if (findUser?.username === username) {
       return new HttpException(
         'El nombre de usuario ya existe.',
         HttpStatus.CONFLICT,
       );
-    } else if (findUser?.email === createUserDto.email) {
+    } else if (findUser?.email === email) {
       return new HttpException('El email ya existe.', HttpStatus.CONFLICT);
     }
-    const newUser = await this.userRepository.create(createUserDto);
+    const newUser = await this.userRepository.create({
+      email,
+      password,
+      username,
+    });
     return await this.userRepository.save(newUser);
   }
+  async findOneByEmail(email: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        email,
+      },
+    });
 
+    return user;
+  }
   async findAllUsers() {
     return await this.userRepository.find();
   }
-
   async findOneById(id: string) {
     const user = await this.userRepository.findOne({
       where: {
@@ -51,7 +64,6 @@ export class UsersService {
       return new HttpException('User not found.', HttpStatus.NOT_FOUND);
     }
   }
-
   async updateUser(id: string, userFields: UpdateUserDto) {
     const userFound = await this.userRepository.findOneById(id);
     if (userFound) {

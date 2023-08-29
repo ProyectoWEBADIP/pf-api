@@ -6,7 +6,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Profile } from './entities/profile.entity';
 import { Repository } from 'typeorm';
-
+import { CreateProfileDto } from './dto/create-profile.dto';
 @Injectable()
 export class UsersService {
   constructor(
@@ -64,7 +64,24 @@ export class UsersService {
       );
     }
   }
+  async createProfile(id: string, profile: CreateProfileDto) {
+    let userFound;
+    try {
+      userFound = await this.userRepository.findOne({
+        where: {
+          id,
+        },
+      });
+    } catch (error) {
+      return new HttpException('Usuario no encontrado.', HttpStatus.NOT_FOUND);
+    }
+    const newProfile = this.profileRepository.create(profile);
 
+    const savedProfile = await this.profileRepository.save(newProfile);
+    userFound.profile = savedProfile;
+
+    return await this.userRepository.save(userFound);
+  }
   async removeUser(id: string) {
     return `This action removes a #${id} user`;
   }

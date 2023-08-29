@@ -7,7 +7,6 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { V4Options } from 'uuid';
 import { Profile } from './profile.entity';
 
 @Entity({ name: 'users' })

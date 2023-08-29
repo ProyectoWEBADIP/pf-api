@@ -5,7 +5,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('user_profile')
 export class Profile {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn("uuid")
   id: string;
   @Column()
   firstName: string;
@@ -13,7 +13,7 @@ export class Profile {
   lastName: string;
   @Column()
   birthDate: Date;
-  @Column()
+  @Column({nullable:true})
   image: string;
   @Column()
   dni: string

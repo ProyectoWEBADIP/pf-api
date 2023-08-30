@@ -18,7 +18,7 @@ import { AuthModule } from './auth/auth.module';
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
       ssl: {
-        rejectUnauthorized: false, // Esto indica que no deseas rechazar certificados no autorizados
+        rejectUnauthorized: false, // Esto indica que no deseas rechazar certificados no autorizados.
       },
     }),
     UsersModule,

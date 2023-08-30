@@ -27,6 +27,8 @@ export class User {
   authStrategy: string;
   @Column({nullable:true})
   active: boolean;
+  @Column({default:'user'})
+  role: string
   @OneToOne(() => Profile)
   @JoinColumn()
   profile: Profile;

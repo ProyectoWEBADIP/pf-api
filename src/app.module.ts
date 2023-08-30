@@ -10,13 +10,16 @@ import { AuthModule } from './auth/auth.module';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'localhost',
-      username: 'postgres',
-      password: 'gasti2000',
+      host: 'ep-wandering-moon-99222123.us-east-2.aws.neon.tech',
+      username: 'fl0user',
+      password: 'DzqKnH9WjL7h',
       port: 5432,
       database: 'adipdb',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
       synchronize: true,
+      ssl: {
+        rejectUnauthorized: false, // Esto indica que no deseas rechazar certificados no autorizados
+      },
     }),
     UsersModule,
     AuthModule,

@@ -15,7 +15,6 @@ export class UsersService {
     @InjectRepository(Profile)
     private readonly profileRepository: Repository<Profile>,
   ) {}
-  //FUNCION REGISTER
   async createUser({ email, password, username }: CreateUserDto) {
     const findUser = await this.userRepository.findOne({
       where: [

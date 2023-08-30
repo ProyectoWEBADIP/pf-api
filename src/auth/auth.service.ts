@@ -29,7 +29,7 @@ export class AuthService {
         HttpStatus.NON_AUTHORITATIVE_INFORMATION,
       );
     }
-    const payload = { email: userFound.email };
+    const payload = { email: userFound.email, role: userFound.role };
 
     const access_token = await this.jwtService.signAsync(payload);
 
@@ -38,12 +38,14 @@ export class AuthService {
       email,
     };
   }
-
   async registerUser({ email, password, username }: RegisterDto) {
     return await this.usersService.createUser({
       email,
       password: await bcryptjs.hash(password, 10),
       username,
     });
+  }
+  async profile({email,role}: {email:string, role:string}){
+    return await this.usersService.findOneByEmail(email)
   }
 }

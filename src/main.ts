@@ -4,7 +4,7 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  
   //PARA QUE FUNCIONE EL CLASS VALIDATOR
   app.useGlobalPipes(
     new ValidationPipe({
@@ -13,6 +13,12 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  await app.listen(3000);
+   // Configuración de encabezados CORS
+   app.enableCors({
+    origin: 'http://localhost:3000', // Cambia esto por el origen correcto
+    methods: 'GET, POST, PUT, DELETE',
+    allowedHeaders: 'Content-Type, Authorization',
+  });
+  await app.listen(3001);
 }
 bootstrap();

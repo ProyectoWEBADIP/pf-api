@@ -16,6 +16,7 @@ import { AuthGuard } from './guard/auth.guard';
 import {Request} from 'express'
 import { RolesGuard } from './guard/roles.guard';
 import { Role } from './enums/roles.enum';
+import { Auth } from './decorators/auth.decorator';
 // extiende todo lo que viene por request de express(como el body, los params y eso) y le injecto la propiedad user con las propiedades email y role.
 interface RequestWhitUser extends Request {
   user: {email:string, role:string}
@@ -32,8 +33,8 @@ export class AuthController {
     return this.authService.registerUser({ email, password, username });
   }
   @Get('profile')
-  @Roles(Role.ADMIN) 
-  @UseGuards(AuthGuard,RolesGuard)
+  //Auth es un decorador que recopila todos los decoradores y los aplica al mismo tiempo
+  @Auth(Role.ADMIN)
   userProfile(
     @Req()
     //se hace la interfaz para poder asignarle un tipo al req   

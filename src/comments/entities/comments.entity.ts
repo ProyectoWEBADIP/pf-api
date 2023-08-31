@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
 import {
   PrimaryGeneratedColumn,
   Entity,
@@ -8,29 +9,17 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
-import { Profile } from './profile.entity';
 
-@Entity({ name: 'users' })
-export class User {
+@Entity()
+export class Comments {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-  @Column({ unique: true })
-  username: string;
-  @Column({ unique: true })
-  email: string;
   @Column()
-  password: string;
+  comment: string;
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
   @DeleteDateColumn()
   deletedAt: Date; //! PARA BORRADO LOGICO
   @Column({ nullable: true })
-  authStrategy: string;
-  @Column({ nullable: true })
   active: boolean;
-  @Column({ default: 'admin' })
-  role: string;
-  @OneToOne(() => Profile)
-  @JoinColumn()
-  profile: Profile;
 }

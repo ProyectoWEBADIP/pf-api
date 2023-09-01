@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { NoticesModule } from './notices/notices.module';
+import { RolesModule } from './roles/roles.module';
 import { CommentsModule } from './comments/comments.module';
 import { Comments } from './comments/entities/comments.entity';
 
@@ -31,6 +32,7 @@ import { Comments } from './comments/entities/comments.entity';
     CommentsModule,
     CategoriesModule,
     NoticesModule,
+    RolesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

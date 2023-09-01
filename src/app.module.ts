@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { NoticesModule } from './notices/notices.module';
+import { RolesModule } from './roles/roles.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { NoticesModule } from './notices/notices.module';
     AuthModule,
     CategoriesModule,
     NoticesModule,
+    RolesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

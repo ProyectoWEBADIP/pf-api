@@ -15,7 +15,7 @@ async function bootstrap() {
   );
    // Configuración de encabezados CORS
    app.enableCors({
-    origin: 'http://localhost:3000', // Cambia esto por el origen correcto
+    origin: 'http://localhost:5173', // Cambia esto por el origen correcto
     methods: 'GET, POST, PUT, DELETE',
     allowedHeaders: 'Content-Type, Authorization',
   });

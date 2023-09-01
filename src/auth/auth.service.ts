@@ -15,7 +15,7 @@ export class AuthService {
   ) {}
 
   async login({ email, password }: LoginDto) {
-    const userFound = await this.usersService.findOneByEmail(email);
+    const userFound = await this.usersService.findByEmailWhitPassword(email);
     if (!userFound) {
       throw new HttpException(
         'Usuario o contraseña invalidos.',
@@ -30,22 +30,60 @@ export class AuthService {
       );
     }
     const payload = { email: userFound.email, role: userFound.role };
-
     const access_token = await this.jwtService.signAsync(payload);
-
     return {
       access_token,
       email,
     };
   }
+
   async registerUser({ email, password, username }: RegisterDto) {
-    return await this.usersService.createUser({
-      email,
-      password: await bcryptjs.hash(password, 10),
-      username,
-    });
+    const userFound = await this.usersService.findOneByEmail(email);
+
+    if (!userFound) {
+      const registeredUser = await this.usersService.createUser({
+        email,
+        password: await bcryptjs.hash(password, 10),
+        username,
+      });
+      return 'Usuario registrado con éxito.';
+    } else {
+      return 'Correo electrónico ya existente.';
+    }
   }
-  async profile({email,role}: {email:string, role:string}){
-    return await this.usersService.findOneByEmail(email)
+
+  async registerUserGoogle(credential: string) {
+    //TODO ESTO PARA DECODIFICAR EL JWT
+    const base64Payload: string = credential.split('.')[1];
+    const payloadBuffer = Buffer.from(base64Payload, 'base64');
+    const updatedJwtPayload = JSON.parse(payloadBuffer.toString());
+    //TODO ESTO PARA DECODIFICAR EL JWT
+
+    const email: string = updatedJwtPayload.email;
+
+    const userFound= await this.usersService.findOneByEmail(email);
+    const password:string= email
+
+    if (!userFound) {
+      const username: string = updatedJwtPayload.name;
+      await this.registerUser({ email, username, password });
+
+      const access_token = await this.login({email,password})
+      const response = {
+        message: 'Te has registrado exitosamente.',
+        access_token
+      }
+      return response;
+    } else {
+     const access_token = await this.login({email,password})
+     const response = {
+      message: 'Iniciando sesión con Google...',
+      access_token
+    }
+     return response;
+    }
+  }
+  async profile({ email, role }: { email: string; role: string }) {
+    return await this.usersService.findOneByEmail(email);
   }
 }

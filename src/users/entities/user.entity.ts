@@ -8,6 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Profile } from './profile.entity';
+import { Role } from '../../common/enums/roles.enum';
 
 @Entity({ name: 'users' })
 export class User {
@@ -17,7 +18,7 @@ export class User {
   username: string;
   @Column({ unique: true })
   email: string;
-  @Column()
+  @Column({select: false})
   password: string;
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
@@ -27,8 +28,8 @@ export class User {
   authStrategy: string;
   @Column({nullable:true})
   active: boolean;
-  @Column({default:'admin'})
-  role: string
+  @Column({type: 'enum', enum: Role, default: Role.USER})
+  role: Role;
   @OneToOne(() => Profile)
   @JoinColumn()
   profile: Profile;

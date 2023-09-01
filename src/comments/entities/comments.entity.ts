@@ -12,8 +12,8 @@ import {
 
 @Entity({ name: 'comments' })
 export class Comments {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
   @Column()
   comment: string;
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

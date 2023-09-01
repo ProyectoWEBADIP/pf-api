@@ -9,31 +9,34 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { CommentsService } from '../services/comments.service';
 
 @Controller('comments')
 export class CommentsController {
+  constructor(private CommentsServices: CommentsService) {}
+
   @Get()
   getAll() {
-    return 'Lista de comentarios';
+    return this.CommentsServices.getAll();
   }
 
   @Get(':id')
-  getOne(@Param('id') id: string) {
-    return 'Un comentario';
+  getOne(@Param('id') id: number) {
+    return this.CommentsServices.getOne(id);
   }
 
   @Post()
   create(@Body() body: any) {
-    return body;
+    return this.CommentsServices.createOne(body);
   }
 
   @Put(':id')
   update(@Param('id') id: string, @Body() body: any) {
-    return body;
+    return this.CommentsServices.update(+id, body);
   }
 
   @Delete(':id')
   delete(@Param('id') id: string) {
-    return id;
+    return this.CommentsServices.delete(+id);
   }
 }

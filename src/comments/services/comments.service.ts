@@ -1,7 +1,7 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeepPartial, Entity, Repository } from 'typeorm';
 import { Comments } from '../entities/comments.entity';
@@ -17,12 +17,16 @@ export class CommentsService {
     return this.commentRepository.find();
   }
 
-  getOne(id: string) {
-    return this.commentRepository.findOne({
+  async getOne(id: number) {
+    const commentFound = await this.commentRepository.findOne({
       where: {
         id,
       },
     });
+    if (!commentFound) {
+      throw new HttpException('Comment not found', HttpStatus.NOT_FOUND);
+    }
+    return commentFound;
   }
 
   createOne(body: any) {
@@ -30,7 +34,7 @@ export class CommentsService {
     return this.commentRepository.save(newComment);
   }
 
-  async update(id: string, body: any) {
+  async update(id: number, body: any) {
     const commentUpd = await this.commentRepository.findOne({
       where: {
         id,
@@ -39,9 +43,8 @@ export class CommentsService {
     this.commentRepository.merge(commentUpd, body);
     return this.commentRepository.save(commentUpd);
   }
-}
 
-async delete(id: string) {
-   await this.commentRepository.delete(id);
-return true
+  async delete(id: number) {
+    return await this.commentRepository.delete(id);
+  }
 }

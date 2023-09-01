@@ -1,4 +1,5 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -8,6 +9,8 @@ import { AuthModule } from './auth/auth.module';
 import { CategoriesModule } from './categories/categories.module';
 import { NoticesModule } from './notices/notices.module';
 import { RolesModule } from './roles/roles.module';
+import { CommentsModule } from './comments/comments.module';
+import { Comments } from './comments/entities/comments.entity';
 
 @Module({
   imports: [
@@ -18,14 +21,15 @@ import { RolesModule } from './roles/roles.module';
       password: 'DzqKnH9WjL7h',
       port: 5432,
       database: 'adipdb',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
+      entities: [__dirname + '/**/*.entity{.ts,.js}', Comments],
       synchronize: true,
       ssl: {
-        rejectUnauthorized: false, // Esto indica que no deseas rechazar certificados no autorizados
+        rejectUnauthorized: false, // Esto indica que no deseas rechazar certificados no autorizados.
       },
     }),
     UsersModule,
     AuthModule,
+    CommentsModule,
     CategoriesModule,
     NoticesModule,
     RolesModule,

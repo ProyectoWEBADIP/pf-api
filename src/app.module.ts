@@ -6,6 +6,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
+import { CategoriesModule } from './categories/categories.module';
 import { NoticesModule } from './notices/notices.module';
 import { CommentsModule } from './comments/comments.module';
 import { Comments } from './comments/entities/comments.entity';
@@ -28,6 +29,7 @@ import { Comments } from './comments/entities/comments.entity';
     UsersModule,
     AuthModule,
     CommentsModule,
+    CategoriesModule,
     NoticesModule,
   ],
   controllers: [AppController],

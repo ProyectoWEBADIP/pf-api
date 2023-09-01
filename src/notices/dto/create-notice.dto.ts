@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { IsNotEmpty, IsString, MaxLength, IsUrl } from 'class-validator';
 
 export class CreateNoticeDto {

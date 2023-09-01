@@ -10,7 +10,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'comments' })
 export class Comments {
   @PrimaryGeneratedColumn('uuid')
   id: string;

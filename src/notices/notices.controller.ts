@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Controller,
   Post,
@@ -7,11 +8,13 @@ import {
   ParseIntPipe,
   Delete,
   Patch,
+  Query,
 } from '@nestjs/common';
 import { NoticesService } from './notices.service';
 import { CreateNoticeDto } from './dto/create-notice.dto';
 import { Notice } from './notice.entity';
 import { UpdateNoticeDto } from './dto/update-notice.dto';
+import { start } from 'repl';
 
 @Controller('notices')
 export class NoticesController {
@@ -21,7 +24,24 @@ export class NoticesController {
   getNotices(): Promise<Notice[]> {
     return this.noticesServices.getNotices();
   }
+  @Get('byDateRange')
+  async getNoticesByDateRange(
+    @Query('startDate', ParseIntPipe) startDate: number,
+    @Query('endDate', ParseIntPipe) endDate: number,
+  ) {
+    try {
+      const startDateObj = new Date(startDate);
+      const endDateObj = new Date(endDate);
 
+      const notices = await this.noticesServices.getNoticesByDateRange(
+        startDateObj,
+        endDateObj,
+      );
+      return { data: notices };
+    } catch (error) {
+      // Manejar errores aquí
+    }
+  }
   @Get(':id')
   getNotice(@Param('id', ParseIntPipe) id: number): Promise<Notice[]> {
     return this.noticesServices.getNotice(id);

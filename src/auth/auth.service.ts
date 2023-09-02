@@ -69,10 +69,11 @@ export class AuthService {
       await this.registerUser({ email, username, password });
 
       const access_token = await this.login({email,password})
+      const {id} = access_token
       const response = {
         message: 'Te has registrado exitosamente.',
         access_token,
-      id:userFound.id
+        id
 
       }
       return response;

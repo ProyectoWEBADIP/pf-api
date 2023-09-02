@@ -51,19 +51,21 @@ export class UsersService {
   async findByEmailWhitPassword(email: string) {
     return this.userRepository.findOne({
       where: {
-        email
+        email,
       },
-select: ['id','role','username','email','password']
-    })
+      select: ['id', 'role', 'username', 'email', 'password'],
+    });
   }
   async findAllUsers() {
-    return await this.userRepository.find();
+    return await this.userRepository.find({relations:['profile']});//AGREGUÉ RELATIONS, SI NO FUNCIONA, SACARLO.
   }
   async findOneById(id: string) {
     const user = await this.userRepository.findOne({
       where: {
         id,
       },
+      relations: ['profile']
+
     });
 
     if (user) {
@@ -85,7 +87,7 @@ select: ['id','role','username','email','password']
     }
   }
   async createProfile(id: string, profile: CreateProfileDto) {
-    let userFound;
+    let userFound: User;
     try {
       userFound = await this.userRepository.findOne({
         where: {
@@ -96,9 +98,9 @@ select: ['id','role','username','email','password']
       return new HttpException('Usuario no encontrado.', HttpStatus.NOT_FOUND);
     }
     const newProfile = this.profileRepository.create(profile);
-
     const savedProfile = await this.profileRepository.save(newProfile);
     userFound.profile = savedProfile;
+    userFound.active = true; //Lo pongo en active, quiere decir que ya tiene un perfil.
 
     return await this.userRepository.save(userFound);
   }

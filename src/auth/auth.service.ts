@@ -29,17 +29,17 @@ export class AuthService {
         HttpStatus.NON_AUTHORITATIVE_INFORMATION,
       );
     }
-    const payload = { email: userFound.email, role: userFound.role };
+    const payload = { id:userFound.id, email: userFound.email, role: userFound.role };
     const access_token = await this.jwtService.signAsync(payload);
     return {
       access_token,
       email,
+      id:userFound.id
     };
   }
 
   async registerUser({ email, password, username }: RegisterDto) {
     const userFound = await this.usersService.findOneByEmail(email);
-
     if (!userFound) {
       const registeredUser = await this.usersService.createUser({
         email,
@@ -71,14 +71,18 @@ export class AuthService {
       const access_token = await this.login({email,password})
       const response = {
         message: 'Te has registrado exitosamente.',
-        access_token
+        access_token,
+      id:userFound.id
+
       }
       return response;
     } else {
      const access_token = await this.login({email,password})
      const response = {
       message: 'Iniciando sesión con Google...',
-      access_token
+      access_token,
+      id:userFound.id
+
     }
      return response;
     }

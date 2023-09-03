@@ -2,7 +2,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Notice } from './notice.entity';
-import { Between, Repository } from 'typeorm';
+import { Between, Repository, ILike } from 'typeorm';
 import { CreateNoticeDto } from './dto/create-notice.dto';
 import { UpdateNoticeDto } from './dto/update-notice.dto';
 @Injectable()
@@ -89,5 +89,22 @@ export class NoticesService {
     }
     const updateNotice = Object.assign(noticeFound, notice);
     return this.noticeRepository.save(updateNotice);
+  }
+
+  async getNoticesByTitlePartial(titlePartial: string) {
+    try {
+      const notices = await this.noticeRepository.find({
+        where: {
+          title: ILike(`%${titlePartial}%`),
+        },
+      });
+
+      return notices;
+    } catch (error) {
+      throw new HttpException(
+        'Error fetching notices by title',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

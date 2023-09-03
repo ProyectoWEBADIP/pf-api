@@ -65,4 +65,11 @@ export class NoticesController {
   ) {
     return this.noticesServices.updateNotice(id, notice);
   }
+
+  @Get('byTitlePartial')
+  async getNoticesByTitlePartial(@Query('title') titlePartial: string) {
+    const notices =
+      await this.noticesServices.getNoticesByTitlePartial(titlePartial);
+    return { data: notices };
+  }
 }

@@ -9,6 +9,7 @@ export class CreateProfileDto {
   lastName: string;
   @IsNotEmpty()
   birthDate: Date;
+  @IsNotEmpty()
   image?: string;
   @IsNotEmpty()
   dni: string;

@@ -3,6 +3,7 @@
 /* eslint-disable prettier/prettier */
 import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { User } from './user.entity';
+import { isNotEmpty } from 'class-validator';
 
 @Entity('user_profile')
 export class Profile {

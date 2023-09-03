@@ -37,7 +37,8 @@ export class User {
   @Column({ nullable: true })
   authStrategy: string;
 
-  @Column({ nullable: true })
+  @Column({ default: false, nullable: true })
+  
   active: boolean;
 
   @Column({ type: 'enum', enum: Role, default: Role.USER })

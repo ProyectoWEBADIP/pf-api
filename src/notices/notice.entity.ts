@@ -26,7 +26,7 @@ export class Notice {
   @Column()
   image: string;
 
-  @CreateDateColumn()
+  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   date: Date;
 
   @Column({ type: 'varchar', length: 125, unique: true })

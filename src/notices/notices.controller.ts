@@ -44,8 +44,8 @@ export class NoticesController {
   }
 
   @Get(':id')
-  getNotice(@Param('id', ParseIntPipe) id: number): Promise<Notice[]> {
-    return this.noticesServices.getNotice(id);
+  getNoticeById(@Param('id', ParseIntPipe) id: number): Promise<Notice[]> {
+    return this.noticesServices.getNoticeById(id);
   }
 
   @Post()
@@ -66,8 +66,8 @@ export class NoticesController {
     return this.noticesServices.updateNotice(id, notice);
   }
 
-  @Get('byTitlePartial')
-  async getNoticesByTitlePartial(@Query('title') titlePartial: string) {
+  @Get('byTitlePartial/:title')
+  async getNoticesByTitlePartial(@Param('title') titlePartial: string) {
     const notices =
       await this.noticesServices.getNoticesByTitlePartial(titlePartial);
     return { data: notices };

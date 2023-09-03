@@ -60,7 +60,7 @@ export class NoticesService {
       );
     }
   }
-  async getNotice(id: number) {
+  async getNoticeById(id: number) {
     const noticeFound = await this.noticeRepository.find({
       where: { id },
     });

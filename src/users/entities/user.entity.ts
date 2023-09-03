@@ -24,7 +24,8 @@ export class User {
 
   @Column({ unique: true })
   email: string;
-  @Column({select: false})
+
+  @Column({ select: false })
   password: string;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
@@ -39,8 +40,10 @@ export class User {
   @Column({ default: false, nullable: true })
   
   active: boolean;
-  @Column({type: 'enum', enum: Role, default: Role.USER})
+
+  @Column({ type: 'enum', enum: Role, default: Role.USER })
   role: Role;
+
   @OneToOne(() => Profile)
   @JoinColumn()
   profile: Profile;

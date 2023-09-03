@@ -11,19 +11,14 @@ import {
   Query,
 } from '@nestjs/common';
 import { NoticesService } from './notices.service';
-import { CreateNoticeDto } from './dto/create-notice.dto';
 import { Notice } from './notice.entity';
 import { UpdateNoticeDto } from './dto/update-notice.dto';
-import { start } from 'repl';
+import { CreateNoticeDto } from './dto/create-notice.dto';
 
 @Controller('notices')
 export class NoticesController {
   constructor(private noticesServices: NoticesService) {}
 
-  @Get()
-  getNotices(): Promise<Notice[]> {
-    return this.noticesServices.getNotices();
-  }
   @Get('byDateRange')
   async getNoticesByDateRange(
     @Query('startDate', ParseIntPipe) startDate: number,
@@ -42,6 +37,12 @@ export class NoticesController {
       // Manejar errores aquí
     }
   }
+
+  @Get()
+  getNotices(): Promise<Notice[]> {
+    return this.noticesServices.getNotices();
+  }
+
   @Get(':id')
   getNotice(@Param('id', ParseIntPipe) id: number): Promise<Notice[]> {
     return this.noticesServices.getNotice(id);

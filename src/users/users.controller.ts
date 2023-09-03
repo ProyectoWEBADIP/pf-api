@@ -20,10 +20,12 @@ export class UsersController {
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
   }
+
   @Post(':id/profile')
   createProfile(@Param('id') id: string, @Body() profile: CreateProfileDto) {
     return this.usersService.createProfile(id, profile);
   }
+
   @Get()
   findAllUsers() {
     return this.usersService.findAllUsers();

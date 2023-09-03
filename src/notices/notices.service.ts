@@ -24,9 +24,23 @@ export class NoticesService {
     return this.noticeRepository.save(newNotice);
   }
 
-  getNotices() {
-    return this.noticeRepository.find();
+  async getNotices() {
+    try {
+      const notices = await this.noticeRepository.find({
+        order: {
+          id: 'DESC',
+        },
+      });
+
+      return notices;
+    } catch (error) {
+      throw new HttpException(
+        'Error fetching notices',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
+
   async getNoticesByDateRange(fechaInicio: Date, fechaFin: Date) {
     try {
       const notices = await this.noticeRepository

@@ -61,10 +61,7 @@ export class NoticesService {
     }
   }
   async getNotice(id: number) {
-    const noticeFound = await this.noticeRepository.find({
-      where: { id },
-    });
-
+    const noticeFound = await this.noticeRepository.findOneById(id);
     if (!noticeFound) {
       throw new HttpException('Notice not found', HttpStatus.NOT_FOUND);
     }

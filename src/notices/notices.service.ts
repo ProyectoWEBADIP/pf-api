@@ -57,4 +57,22 @@ export class NoticesService {
     const updateNotice = Object.assign(noticeFound, notice);
     return this.noticeRepository.save(updateNotice);
   }
+
+  async getNoticesByDate(
+    startDate: Date,
+    endDate: Date,
+    order: 'ASC' | 'DESC',
+  ): Promise<Notice[]> {
+    console.log(startDate);
+    console.log(endDate);
+    const query = this.noticeRepository
+      .createQueryBuilder('notices')
+      .where('notices.date BETWEEN :startDate AND :endDate', {
+        startDate,
+        endDate,
+      })
+      .orderBy('notices.date', order);
+
+    return query.getMany();
+  }
 }

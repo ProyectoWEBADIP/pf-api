@@ -7,6 +7,7 @@ import {
   ParseIntPipe,
   Delete,
   Patch,
+  Query,
 } from '@nestjs/common';
 import { NoticesService } from './notices.service';
 import { CreateNoticeDto } from './dto/create-notice.dto';
@@ -43,5 +44,20 @@ export class NoticesController {
     @Body() notice: UpdateNoticeDto,
   ) {
     return this.noticesServices.updateNotice(id, notice);
+  }
+
+  @Get('byDate?')
+  getNoticesByDate(
+    @Query('startDate') startDate: Date,
+    @Query('endDate') endDate: Date,
+    @Query('order') order: 'ASC' | 'DESC',
+  ) {
+    console.log(startDate);
+    console.log(endDate);
+    return this.noticesServices.getNoticesByDate(
+      new Date(startDate),
+      new Date(endDate),
+      order,
+    );
   }
 }

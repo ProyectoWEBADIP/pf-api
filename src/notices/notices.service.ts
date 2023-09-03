@@ -2,27 +2,30 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Notice } from './notice.entity';
-import { Between, Repository, ILike } from 'typeorm';
+import { Repository, ILike, SelectQueryBuilder } from 'typeorm';
 import { CreateNoticeDto } from './dto/create-notice.dto';
 import { UpdateNoticeDto } from './dto/update-notice.dto';
+import { CategoriesService } from 'src/categories/categories.service';
+
 @Injectable()
 export class NoticesService {
   constructor(
     @InjectRepository(Notice) private noticeRepository: Repository<Notice>,
+    private categoriesService: CategoriesService,
   ) {}
 
-  async createNotice(notice: CreateNoticeDto) {
-    const notiFoun = await this.noticeRepository.findOne({
-      where: { title: notice.title },
-    });
+  // async createNotice(notice: CreateNoticeDto) {
+  //   const notiFoun = await this.noticeRepository.findOne({
+  //     where: { title: notice.title },
+  //   });
 
-    if (notiFoun) {
-      throw new HttpException('Notice already exist', HttpStatus.CONFLICT);
-    }
+  //   if (notiFoun) {
+  //     throw new HttpException('Notice already exist', HttpStatus.CONFLICT);
+  //   }
 
-    const newNotice = this.noticeRepository.create(notice);
-    return this.noticeRepository.save(newNotice);
-  }
+  //   const newNotice = this.noticeRepository.create(notice);
+  //   return this.noticeRepository.save(newNotice);
+  // }
 
   async getNotices() {
     try {
@@ -60,6 +63,7 @@ export class NoticesService {
       );
     }
   }
+
   async getNoticeById(id: number) {
     const noticeFound = await this.noticeRepository.find({
       where: { id },
@@ -106,5 +110,39 @@ export class NoticesService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+  }
+
+  async createNotice(createNoticeDto: CreateNoticeDto) {
+    try {
+      const { categorie_id, ...noticeData } = createNoticeDto;
+
+      // Verifica si la categoría existe
+      const categoryExists =
+        await this.categoriesService.getCategory(categorie_id);
+      if (!categoryExists) {
+        throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+      }
+
+      // Crea la noticia y asigna la categoría
+      const newNotice = this.noticeRepository.create({
+        ...noticeData,
+        categorie: categoryExists, // Asigna la categoría existente
+      });
+
+      return this.noticeRepository.save(newNotice);
+    } catch (error) {
+      throw new HttpException(
+        'Error creating notice',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
+  async getNoticesByCategory(categoryId: number): Promise<Notice[]> {
+    return this.noticeRepository
+      .createQueryBuilder('notice')
+      .innerJoinAndSelect('notice.categorie', 'category')
+      .where('category.id = :categoryId', { categoryId })
+      .getMany();
   }
 }

@@ -48,10 +48,10 @@ export class NoticesController {
     return this.noticesServices.getNoticeById(id);
   }
 
-  @Post()
-  createNotice(@Body() newNotice: CreateNoticeDto): Promise<Notice> {
-    return this.noticesServices.createNotice(newNotice);
-  }
+  // @Post()
+  // createNotice(@Body() newNotice: CreateNoticeDto): Promise<Notice> {
+  //   return this.noticesServices.createNotice(newNotice);
+  // }
 
   @Delete(':id')
   deleteNotice(@Param('id', ParseIntPipe) id: number) {
@@ -71,5 +71,18 @@ export class NoticesController {
     const notices =
       await this.noticesServices.getNoticesByTitlePartial(titlePartial);
     return { data: notices };
+  }
+
+  @Post()
+  async createNotice(@Body() createNoticeDto: CreateNoticeDto) {
+    const newNotice = await this.noticesServices.createNotice(createNoticeDto);
+    return { data: newNotice };
+  }
+
+  @Get('byCategory/:categoryId')
+  async getNoticesByCategory(
+    @Param('categoryId') categoryId: string,
+  ): Promise<Notice[]> {
+    return this.noticesServices.getNoticesByCategory(parseInt(categoryId, 10));
   }
 }

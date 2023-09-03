@@ -2,7 +2,6 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
-  CreateDateColumn,
   ManyToOne,
   JoinColumn,
   ManyToMany,
@@ -14,6 +13,22 @@ import { Comments } from 'src/comments/entities/comments.entity';
 
 @Entity({ name: 'notices' })
 export class Notice {
+  constructor(
+    title: string,
+    content: string,
+    image: string,
+    resume: string,
+    user: User,
+    categorie: Category,
+  ) {
+    this.title = title;
+    this.content = content;
+    this.image = image;
+    this.resume = resume;
+    this.user = user;
+    this.categorie = categorie;
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -36,27 +51,11 @@ export class Notice {
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => Category, (category) => category.notice, { cascade: true }) // Agregamos cascade: true para que al guardar una noticia, también se guarde la categoría si aún no existe
+  @ManyToOne(() => Category, (category) => category.notice, { cascade: true })
   @JoinColumn({ name: 'categorie_id' })
   categorie: Category;
 
   @ManyToMany(() => Comments, (comments) => comments.notice)
-  @JoinTable({ name: 'notice_comments' }) // Nombre de la tabla de relación entre Noticia y Comentarios
+  @JoinTable({ name: 'notice_comments' })
   comments: Comments[];
-
-  constructor(
-    title: string,
-    content: string,
-    image: string,
-    resume: string,
-    user: User,
-    categorie: Category,
-  ) {
-    this.title = title;
-    this.content = content;
-    this.image = image;
-    this.resume = resume;
-    this.user = user;
-    this.categorie = categorie; // Asignamos la categoría proporcionada al campo 'categorie'
-  }
 }

@@ -8,6 +8,7 @@ import { User } from './entities/user.entity';
 import { Profile } from './entities/profile.entity';
 import { Repository } from 'typeorm';
 import { CreateProfileDto } from './dto/create-profile.dto';
+
 @Injectable()
 export class UsersService {
   constructor(
@@ -15,6 +16,7 @@ export class UsersService {
     @InjectRepository(Profile)
     private readonly profileRepository: Repository<Profile>,
   ) {}
+
   async createUser({ email, password, username }: CreateUserDto) {
     const findUser = await this.userRepository.findOne({
       where: [
@@ -39,39 +41,43 @@ export class UsersService {
     });
     return await this.userRepository.save(newUser);
   }
+
   async findOneByEmail(email: string) {
     const user = await this.userRepository.findOne({
       where: {
         email,
       },
     });
-
     return user;
   }
+
   async findByEmailWhitPassword(email: string) {
     return this.userRepository.findOne({
       where: {
-        email
+        email,
       },
-select: ['id','role','username','email','password']
-    })
+      select: ['id', 'role', 'username', 'email', 'password'],
+    });
   }
+
   async findAllUsers() {
-    return await this.userRepository.find();
+    return await this.userRepository.find({ relations: ['profile'] }); //AGREGUÉ RELATIONS, SI NO FUNCIONA, SACARLO.
   }
+
   async findOneById(id: string) {
     const user = await this.userRepository.findOne({
       where: {
         id,
       },
+      relations: ['profile'],
     });
-
     if (user) {
       return user;
     } else {
       return new HttpException('User not found.', HttpStatus.NOT_FOUND);
     }
   }
+
   async updateUser(id: string, userFields: UpdateUserDto) {
     const userFound = await this.userRepository.findOneById(id);
     if (userFound) {
@@ -84,8 +90,9 @@ select: ['id','role','username','email','password']
       );
     }
   }
+
   async createProfile(id: string, profile: CreateProfileDto) {
-    let userFound;
+    let userFound: User;
     try {
       userFound = await this.userRepository.findOne({
         where: {
@@ -96,12 +103,13 @@ select: ['id','role','username','email','password']
       return new HttpException('Usuario no encontrado.', HttpStatus.NOT_FOUND);
     }
     const newProfile = this.profileRepository.create(profile);
-
     const savedProfile = await this.profileRepository.save(newProfile);
     userFound.profile = savedProfile;
+    userFound.active = true; //Lo pongo en active, quiere decir que ya tiene un perfil.
 
     return await this.userRepository.save(userFound);
   }
+
   async removeUser(id: string) {
     return `This action removes a #${id} user`;
   }

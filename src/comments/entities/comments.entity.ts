@@ -8,7 +8,6 @@ import {
   Entity,
   Column,
   DeleteDateColumn,
-  OneToOne,
   JoinColumn,
   ManyToOne,
   ManyToMany,

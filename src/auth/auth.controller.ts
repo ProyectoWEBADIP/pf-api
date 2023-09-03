@@ -37,6 +37,4 @@ export class AuthController {
   registerUserGoogle(@Body() {credential}){
     return this.authService.registerUserGoogle(credential)
   }
-
-  
 }

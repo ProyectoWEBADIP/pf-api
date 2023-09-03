@@ -10,6 +10,26 @@ export class NoticesService {
     @InjectRepository(Notice) private noticeRepository: Repository<Notice>,
   ) {}
 
+  async getNoticesByDateRange(fechaInicio: Date, fechaFin: Date) {
+    try {
+      const notices = await this.noticeRepository
+        .createQueryBuilder('notice')
+        .where('DATE(notice.date) BETWEEN :fechaInicio AND :fechaFin', {
+          fechaInicio: fechaInicio.toISOString().split('T')[0],
+          fechaFin: fechaFin.toISOString().split('T')[0],
+        })
+        .orderBy('notice.date', 'ASC')
+        .getMany();
+
+      return notices;
+    } catch (error) {
+      throw new HttpException(
+        'Error fetching notices by date range',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   async createNotice(notice: CreateNoticeDto) {
     const notiFoun = await this.noticeRepository.findOne({
       where: { title: notice.title },

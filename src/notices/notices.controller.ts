@@ -44,14 +44,14 @@ export class NoticesController {
   }
 
   @Get(':id')
-  getNotice(@Param('id', ParseIntPipe) id: number): Promise<Notice[]> {
-    return this.noticesServices.getNotice(id);
+  getNoticeById(@Param('id', ParseIntPipe) id: number): Promise<Notice[]> {
+    return this.noticesServices.getNoticeById(id);
   }
 
-  @Post()
-  createNotice(@Body() newNotice: CreateNoticeDto): Promise<Notice> {
-    return this.noticesServices.createNotice(newNotice);
-  }
+  // @Post()
+  // createNotice(@Body() newNotice: CreateNoticeDto): Promise<Notice> {
+  //   return this.noticesServices.createNotice(newNotice);
+  // }
 
   @Delete(':id')
   deleteNotice(@Param('id', ParseIntPipe) id: number) {
@@ -64,5 +64,26 @@ export class NoticesController {
     @Body() notice: UpdateNoticeDto,
   ) {
     return this.noticesServices.updateNotice(id, notice);
+  }
+
+  @Get('byTitlePartial/:title')
+  async getNoticesByTitlePartial(@Param('title') titlePartial: string) {
+    const notices =
+      await this.noticesServices.getNoticesByTitlePartial(titlePartial);
+    return { data: notices };
+  }
+
+  @Post()
+  async createNotice(@Body() createNoticeDto: CreateNoticeDto) {
+    const newNotice = await this.noticesServices.createNotice(createNoticeDto);    
+    
+    return { data: newNotice };
+  }
+
+  @Get('byCategory/:categoryId')
+  async getNoticesByCategory(
+    @Param('categoryId') categoryId: string,
+  ): Promise<Notice[]> {
+    return this.noticesServices.getNoticesByCategory(parseInt(categoryId, 10));
   }
 }

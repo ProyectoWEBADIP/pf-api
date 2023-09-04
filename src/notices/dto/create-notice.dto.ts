@@ -14,7 +14,6 @@ export class CreateNoticeDto {
 
   @IsNotEmpty()
   @IsString()
-  @MaxLength(250)
   content: string;
 
   @IsNotEmpty()
@@ -23,7 +22,6 @@ export class CreateNoticeDto {
 
   @IsNotEmpty()
   @IsString()
-  @MaxLength(125)
   resume: string;
 
   @IsNotEmpty()

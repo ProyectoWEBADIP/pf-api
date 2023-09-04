@@ -65,19 +65,4 @@ export class NoticesController {
   ) {
     return this.noticesServices.updateNotice(id, notice);
   }
-
-  @Get('byDate?')
-  getNoticesByDate(
-    @Query('startDate') startDate: Date,
-    @Query('endDate') endDate: Date,
-    @Query('order') order: 'ASC' | 'DESC',
-  ) {
-    console.log(startDate);
-    console.log(endDate);
-    return this.noticesServices.getNoticesByDate(
-      new Date(startDate),
-      new Date(endDate),
-      order,
-    );
-  }
 }

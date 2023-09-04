@@ -17,14 +17,17 @@ export class CategoriesService {
       where: {
         name: category.name,
       },
-    });
+    });     
+
 
     if (categoryFound) {
       throw new HttpException('Category already exists', HttpStatus.CONFLICT);
     }
 
     const newCategory = this.categoryRepository.create(category);
-    return await this.categoryRepository.save(newCategory);
+    await this.categoryRepository.save(newCategory);
+    const categories = await this.categoryRepository.find();
+    return categories;
   }
 
   getCategories() {

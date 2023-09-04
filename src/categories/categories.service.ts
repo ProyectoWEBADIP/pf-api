@@ -18,7 +18,6 @@ export class CategoriesService {
         name: category.name,
       },
     });
-
     if (categoryFound) {
       throw new HttpException('Category already exists', HttpStatus.CONFLICT);
     }

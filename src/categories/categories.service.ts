@@ -12,13 +12,12 @@ export class CategoriesService {
     private categoryRepository: Repository<Category>,
   ) {}
 
-  async createCategory(category: CreateCategoryDto) {
+  async createCategory(category: CreateCategoryDto): Promise<Category> {
     const categoryFound = await this.categoryRepository.findOne({
       where: {
         name: category.name,
       },
-    });     
-
+    });
 
     if (categoryFound) {
       throw new HttpException('Category already exists', HttpStatus.CONFLICT);
@@ -26,8 +25,7 @@ export class CategoriesService {
 
     const newCategory = this.categoryRepository.create(category);
     await this.categoryRepository.save(newCategory);
-    const categories = await this.categoryRepository.find();
-    return categories;
+    return newCategory; // Devolver la categoría recién creada
   }
 
   getCategories() {

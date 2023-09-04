@@ -17,7 +17,8 @@ export class CategoriesService {
       where: {
         name: category.name,
       },
-    });
+    });     
+
 
     if (categoryFound) {
       throw new HttpException('Category already exists', HttpStatus.CONFLICT);

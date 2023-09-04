@@ -96,19 +96,17 @@ export class NoticesService {
   }
 
   async getNoticesByTitlePartial(titlePartial: string) {
-
     const notices = await this.noticeRepository.find({
-          where: {
-            title: ILike(`%${titlePartial}%`),
-          },
-        });
-          if(notices.length){
-            return notices;
-          } else {
-            throw new HttpException('No hay noticias', HttpStatus.NOT_FOUND)
-          }
-       
-      }
+      where: {
+        title: ILike(`%${titlePartial}%`),
+      },
+    });
+    if (notices.length) {
+      return notices;
+    } else {
+      throw new HttpException('No hay noticias', HttpStatus.NOT_FOUND);
+    }
+  }
 
   async createNotice(createNoticeDto: CreateNoticeDto) {
     try {

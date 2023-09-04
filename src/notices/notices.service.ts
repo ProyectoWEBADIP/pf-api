@@ -63,12 +63,12 @@ export class NoticesService {
       );
     }
   }
-  
+
   async getNoticeById(id: number) {
     const noticeFound = await this.noticeRepository.find({
       where: { id },
     });
-    
+
     if (!noticeFound) {
       throw new HttpException('Notice not found', HttpStatus.NOT_FOUND);
     }

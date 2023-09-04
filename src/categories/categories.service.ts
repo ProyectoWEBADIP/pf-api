@@ -24,7 +24,9 @@ export class CategoriesService {
     }
 
     const newCategory = this.categoryRepository.create(category);
-    return await this.categoryRepository.save(newCategory);
+    await this.categoryRepository.save(newCategory);
+    const categories = await this.categoryRepository.find();
+    return categories;
   }
 
   getCategories() {

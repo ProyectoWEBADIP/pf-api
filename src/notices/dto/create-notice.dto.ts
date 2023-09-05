@@ -5,6 +5,7 @@ import {
   MaxLength,
   IsUrl,
   IsNumber,
+  IsBoolean,
 } from 'class-validator';
 
 export class CreateNoticeDto {
@@ -27,4 +28,9 @@ export class CreateNoticeDto {
   @IsNotEmpty()
   @IsNumber()
   categorie_id: number;
+  
+  @IsNotEmpty()
+  @IsBoolean()
+  active: boolean;
+
 }

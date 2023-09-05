@@ -47,11 +47,14 @@ export class Notice {
   @Column({ type: 'varchar', unique: true })
   resume: string;
 
+  @Column({ default: true })
+  active: boolean;
+
   @ManyToOne(() => User, (user) => user.notice)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
-  @ManyToOne(() => Category, (category) => category.notice, { cascade: true })
+  @ManyToMany(() => Category, (category) => category.notices, { cascade: true })
   @JoinColumn({ name: 'categorie_id' })
   categorie: Category;
 

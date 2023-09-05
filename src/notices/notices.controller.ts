@@ -75,8 +75,8 @@ export class NoticesController {
 
   @Post()
   async createNotice(@Body() createNoticeDto: CreateNoticeDto) {
-    const newNotice = await this.noticesServices.createNotice(createNoticeDto);    
-    
+    const newNotice = await this.noticesServices.createNotice(createNoticeDto);
+
     return { data: newNotice };
   }
 

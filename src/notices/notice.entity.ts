@@ -35,7 +35,7 @@ export class Notice {
   @Column({ unique: true })
   title: string;
 
-  @Column({ type: 'varchar', length: 250, unique: true })
+  @Column({ type: 'text', unique: true })
   content: string;
 
   @Column()
@@ -44,7 +44,7 @@ export class Notice {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   date: Date;
 
-  @Column({ type: 'varchar', length: 125, unique: true })
+  @Column({ type: 'varchar', unique: true })
   resume: string;
 
   @ManyToOne(() => User, (user) => user.notice)

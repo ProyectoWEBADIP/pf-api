@@ -6,6 +6,7 @@ import { Repository, ILike, SelectQueryBuilder } from 'typeorm';
 import { CreateNoticeDto } from './dto/create-notice.dto';
 import { UpdateNoticeDto } from './dto/update-notice.dto';
 import { CategoriesService } from 'src/categories/categories.service';
+import { Category } from 'src/categories/entities/categorie.entity';
 
 @Injectable()
 export class NoticesService {
@@ -110,22 +111,27 @@ export class NoticesService {
 
   async createNotice(createNoticeDto: CreateNoticeDto) {
     try {
-      const { categorie_id, ...noticeData } = createNoticeDto;
+      const { categoryIds, ...noticeData } = createNoticeDto;
 
-      // Verifica si la categoría existe
-      const categoryExists =
-        await this.categoriesService.getCategory(categorie_id);
-      if (!categoryExists) {
-        throw new HttpException('Category not found', HttpStatus.NOT_FOUND);
+      const categories =
+        await this.categoriesService.getCategoriesByIds(categoryIds);
+      if (categories.length !== categoryIds.length) {
+        throw new HttpException(
+          'One or more categories not found',
+          HttpStatus.NOT_FOUND,
+        );
       }
 
-      // Crea la noticia y asigna la categoría
-      const newNotice = this.noticeRepository.create({
-        ...noticeData,
-        categorie: categoryExists, // Asigna la categoría existente
-      });
+      const newNotice = new Notice(
+        noticeData.title,
+        noticeData.content,
+        noticeData.image,
+        noticeData.resume,
+        categories,
+      );
 
       await this.noticeRepository.save(newNotice);
+
       return newNotice;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);

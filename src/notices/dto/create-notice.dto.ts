@@ -5,6 +5,9 @@ import {
   MaxLength,
   IsUrl,
   IsNumber,
+  IsArray,
+  ArrayMinSize,
+  IsBoolean,
 } from 'class-validator';
 
 export class CreateNoticeDto {
@@ -24,7 +27,12 @@ export class CreateNoticeDto {
   @IsString()
   resume: string;
 
+  @IsArray()
+  @ArrayMinSize(1)
+  @IsNumber({}, { each: true })
+  categoryIds: number[];
+
   @IsNotEmpty()
-  @IsNumber()
-  categorie_id: number;
+  @IsBoolean()
+  active: boolean;
 }

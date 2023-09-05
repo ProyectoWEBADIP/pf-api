@@ -11,6 +11,8 @@ import { User } from 'src/users/entities/user.entity';
 import { Category } from 'src/categories/entities/categorie.entity';
 import { Comments } from 'src/comments/entities/comments.entity';
 
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prettier/prettier */
 @Entity({ name: 'notices' })
 export class Notice {
   constructor(
@@ -18,15 +20,13 @@ export class Notice {
     content: string,
     image: string,
     resume: string,
-    user: User,
-    categorie: Category,
+    categories: Category[],
   ) {
     this.title = title;
     this.content = content;
     this.image = image;
     this.resume = resume;
-    this.user = user;
-    this.categorie = categorie;
+    this.categories = categories; // Asigna el array de categorías
   }
 
   @PrimaryGeneratedColumn()
@@ -35,7 +35,7 @@ export class Notice {
   @Column({ unique: true })
   title: string;
 
-  @Column({ type: 'text'})
+  @Column({ type: 'text' })
   content: string;
 
   @Column()
@@ -44,7 +44,7 @@ export class Notice {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   date: Date;
 
-  @Column({ type: 'varchar'})
+  @Column({ type: 'varchar' })
   resume: string;
 
   @Column({ default: true })
@@ -55,8 +55,8 @@ export class Notice {
   user: User;
 
   @ManyToMany(() => Category, (category) => category.notices, { cascade: true })
-  @JoinColumn({ name: 'categorie_id' })
-  categorie: Category;
+  @JoinTable({ name: 'notice_categories' })
+  categories: Category[];
 
   @ManyToMany(() => Comments, (comments) => comments.notice)
   @JoinTable({ name: 'notice_comments' })

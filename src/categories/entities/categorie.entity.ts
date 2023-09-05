@@ -1,4 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */ /* eslint-disable prettier/prettier */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prettier/prettier */
 import { Notice } from 'src/notices/notice.entity';
 import {
   Entity,
@@ -23,7 +24,7 @@ export class Category {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' }) //current_timestamp. asigna la fecha actual
   createdAt: Date;
 
-  @ManyToMany(() => Notice, (notice) => notice.categorie)
-  @JoinTable()
+  @ManyToMany(() => Notice)
+  @JoinTable({ name: 'notice_categories' })
   notices: Notice[];
 }

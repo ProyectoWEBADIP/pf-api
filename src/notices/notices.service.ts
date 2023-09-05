@@ -125,12 +125,10 @@ export class NoticesService {
         categorie: categoryExists, // Asigna la categoría existente
       });
 
-      return this.noticeRepository.save(newNotice);
+      await this.noticeRepository.save(newNotice);
+      return newNotice;
     } catch (error) {
-      throw new HttpException(
-        'Error creating notice',
-        HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 

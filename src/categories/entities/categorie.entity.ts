@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */ /* eslint-disable prettier/prettier */
 import { Notice } from 'src/notices/notice.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 
 @Entity({ name: 'categories' })
 export class Category {
@@ -16,6 +23,7 @@ export class Category {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' }) //current_timestamp. asigna la fecha actual
   createdAt: Date;
 
-  @OneToMany(() => Notice, (notice) => notice.categorie)
-  notice: Notice;
+  @ManyToMany(() => Notice, (notice) => notice.categorie)
+  @JoinTable()
+  notices: Notice[];
 }

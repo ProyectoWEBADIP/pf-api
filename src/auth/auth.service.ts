@@ -6,6 +6,7 @@ import { RegisterDto } from './dto/register.dto';
 import * as bcryptjs from 'bcryptjs';
 import { LoginDto } from './dto/login.dto';
 import { JwtService } from '@nestjs/jwt';
+import { UpdateRoleDesactiveUserDto } from './dto/update-role-desactive-user.dto';
 
 @Injectable()
 export class AuthService {
@@ -29,12 +30,16 @@ export class AuthService {
         HttpStatus.NON_AUTHORITATIVE_INFORMATION,
       );
     }
-    const payload = { id:userFound.id, email: userFound.email, role: userFound.role };
+    const payload = {
+      id: userFound.id,
+      email: userFound.email,
+      role: userFound.role,
+    };
     const access_token = await this.jwtService.signAsync(payload);
     return {
       access_token,
       email,
-      id:userFound.id
+      id: userFound.id,
     };
   }
 
@@ -61,34 +66,47 @@ export class AuthService {
 
     const email: string = updatedJwtPayload.email;
 
-    const userFound= await this.usersService.findOneByEmail(email);
-    const password:string= email
+    const userFound = await this.usersService.findOneByEmail(email);
+    const password: string = email;
 
     if (!userFound) {
       const username: string = updatedJwtPayload.name;
       await this.registerUser({ email, username, password });
 
-      const access_token = await this.login({email,password})
-      const {id} = access_token
+      const access_token = await this.login({ email, password });
+      const { id } = access_token;
       const response = {
         message: 'Te has registrado exitosamente.',
         access_token,
-        id
-
-      }
+        id,
+      };
       return response;
     } else {
-     const access_token = await this.login({email,password})
-     const response = {
-      message: 'Iniciando sesión con Google...',
-      access_token,
-      id:userFound.id
-
-    }
-     return response;
+      const access_token = await this.login({ email, password });
+      const response = {
+        message: 'Iniciando sesión con Google...',
+        access_token,
+        id: userFound.id,
+      };
+      return response;
     }
   }
   async profile({ email, role }: { email: string; role: string }) {
     return await this.usersService.findOneByEmail(email);
+  }
+
+  async updateRoleOrDesactivateUser({
+    id,
+    action,
+  }: UpdateRoleDesactiveUserDto) {
+    const userFound = await this.usersService.findOneById(id);
+    if (userFound) {
+      return await this.usersService.updateUserFromAdmin(id, action.userFields);
+    } else {
+      return new HttpException(
+        'No se encontró al usuario.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
   }
 }

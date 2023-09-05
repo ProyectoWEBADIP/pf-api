@@ -10,6 +10,8 @@ import {
   Patch,
   Query,
 } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
+
 import { NoticesService } from './notices.service';
 import { Notice } from './notice.entity';
 import { UpdateNoticeDto } from './dto/update-notice.dto';
@@ -41,6 +43,11 @@ export class NoticesController {
   @Get()
   getNotices(): Promise<Notice[]> {
     return this.noticesServices.getNotices();
+  }
+
+  @Get('byTitlePartial/:title')
+  async getNoticesByTitlePartial(@Param('title') titlePartial: string) {
+    return await this.noticesServices.getNoticesByTitlePartial(titlePartial);
   }
 
   @Get(':id')

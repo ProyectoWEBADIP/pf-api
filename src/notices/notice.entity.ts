@@ -35,7 +35,7 @@ export class Notice {
   @Column({ unique: true })
   title: string;
 
-  @Column({ type: 'text', unique: true })
+  @Column({ type: 'text'})
   content: string;
 
   @Column()
@@ -44,7 +44,7 @@ export class Notice {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   date: Date;
 
-  @Column({ type: 'varchar', unique: true })
+  @Column({ type: 'varchar'})
   resume: string;
 
   @Column({ default: true })

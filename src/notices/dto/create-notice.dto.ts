@@ -1,5 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { IsNotEmpty, IsString, MaxLength, IsUrl } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+  IsUrl,
+  IsNumber,
+} from 'class-validator';
 
 export class CreateNoticeDto {
   @IsNotEmpty()
@@ -17,4 +23,8 @@ export class CreateNoticeDto {
   @IsNotEmpty()
   @IsString()
   resume: string;
+
+  @IsNotEmpty()
+  @IsNumber()
+  categorie_id: number;
 }

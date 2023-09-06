@@ -139,10 +139,21 @@ export class NoticesService {
   }
 
   async getNoticesByCategory(categoryId: number): Promise<Notice[]> {
-    return this.noticeRepository
-      .createQueryBuilder('notice')
-      .innerJoinAndSelect('notice.categorie', 'category')
-      .where('category.id = :categoryId', { categoryId })
-      .getMany();
+    try {
+      const notices = await this.noticeRepository.find({
+        where: {
+          categories: {
+            id: categoryId,
+          },
+        },
+      });
+
+      return notices;
+    } catch (error) {
+      throw new HttpException(
+        'Error fetching notices by category',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }

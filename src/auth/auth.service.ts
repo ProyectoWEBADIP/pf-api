@@ -93,6 +93,21 @@ export class AuthService {
   }
   async profile({ email, role }: { email: string; role: string }) {
     return await this.usersService.findOneByEmail(email);
+    
+  }
+  async createUserFromAdmin({email,username}:{email:string;username:string}){
+    const userFound = await this.usersService.findOneByEmail(email);
+    if (!userFound) {
+      const registeredUser = await this.usersService.createUser({
+        email,
+        password: await bcryptjs.hash(email, 10),
+        username,
+      });
+      return 'Usuario registrado con éxito.(ADMIN)';
+    } else {
+      return 'Correo electrónico ya existente.(ADMIN)';
+    }
+
   }
 
   async updateRoleOrDesactivateUser({

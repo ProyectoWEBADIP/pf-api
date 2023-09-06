@@ -25,6 +25,8 @@ import {
   UpdateRoleDesactiveUserDto,
   AdminActionDto,
 } from './dto/update-role-desactive-user.dto';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { CreateUserFromAdminDto } from './dto/create-user-admin.dto';
 // extiende todo lo que viene por request de express(como el body, los params y eso) y le injecto la propiedad user con las propiedades email y role.
 interface RequestWhitUser extends Request {
   user: { email: string; role: string };
@@ -58,7 +60,10 @@ export class AuthController {
     };
     return this.authService.updateRoleOrDesactivateUser(data);
   }
-
+@Post('createUserAdmin')
+createUserFromAdmin(@Body() createUserFromAdmin: CreateUserFromAdminDto){
+  return this.authService.createUserFromAdmin(createUserFromAdmin);
+}
   @Post('register/google')
   registerUserGoogle(@Body() { credential }) {
     return this.authService.registerUserGoogle(credential);

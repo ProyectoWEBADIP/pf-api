@@ -45,11 +45,6 @@ export class NoticesController {
     return this.noticesServices.getNotices();
   }
 
-  @Get('byTitlePartial/:title')
-  async getNoticesByTitlePartial(@Param('title') titlePartial: string) {
-    return await this.noticesServices.getNoticesByTitlePartial(titlePartial);
-  }
-
   @Get(':id')
   getNoticeById(@Param('id', ParseIntPipe) id: number): Promise<Notice[]> {
     return this.noticesServices.getNoticeById(id);

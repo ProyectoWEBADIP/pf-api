@@ -21,7 +21,7 @@ export class CreateNoticeDto {
   image: string;
 
   @IsNotEmpty()
-  @IsString()  
+  @IsString()
   resume: string;
 
   @IsNotEmpty()

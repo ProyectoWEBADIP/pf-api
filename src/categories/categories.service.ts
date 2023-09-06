@@ -65,4 +65,8 @@ export class CategoriesService {
     const updateCategory = Object.assign(categoryFound, category);
     return this.categoryRepository.save(updateCategory);
   }
+
+  async getCategoriesByIds(categoryIds: number[]): Promise<Category[]> {
+    return this.categoryRepository.findByIds(categoryIds);
+  }
 }

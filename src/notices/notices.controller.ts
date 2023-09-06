@@ -10,6 +10,8 @@ import {
   Patch,
   Query,
 } from '@nestjs/common';
+import { HttpException, HttpStatus } from '@nestjs/common';
+
 import { NoticesService } from './notices.service';
 import { Notice } from './notice.entity';
 import { UpdateNoticeDto } from './dto/update-notice.dto';

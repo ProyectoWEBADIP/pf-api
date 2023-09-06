@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -44,7 +45,6 @@ export class NoticesService {
       );
     }
   }
-
   async getNoticesByDateRange(fechaInicio: Date, fechaFin: Date) {
     try {
       const notices = await this.noticeRepository
@@ -75,7 +75,6 @@ export class NoticesService {
     }
     return noticeFound;
   }
-
   async deletNotice(id: number) {
     const noticeFound = await this.noticeRepository.find({
       where: { id },
@@ -86,7 +85,6 @@ export class NoticesService {
     }
     return this.noticeRepository.delete({ id });
   }
-
   async updateNotice(id: number, notice: UpdateNoticeDto) {
     const noticeFound = await this.noticeRepository.findOne({ where: { id } });
     if (!noticeFound) {

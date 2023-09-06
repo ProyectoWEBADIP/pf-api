@@ -1,6 +1,15 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Controller, Post, Body, Get, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Get,
+  UseGuards,
+  Req,
+  Patch,
+  Param,
+} from '@nestjs/common';
 import { Roles } from './decorators/roles.decorator';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
@@ -12,6 +21,12 @@ import { Role } from '../common/enums/roles.enum';
 import { Auth } from './decorators/auth.decorator';
 import { ActiveUser } from 'src/common/decorators/active-user.decorator';
 import { UserActiveInterface } from 'src/common/interfaces/user-active.interface';
+import {
+  UpdateRoleDesactiveUserDto,
+  AdminActionDto,
+} from './dto/update-role-desactive-user.dto';
+import { CreateUserDto } from 'src/users/dto/create-user.dto';
+import { CreateUserFromAdminDto } from './dto/create-user-admin.dto';
 // extiende todo lo que viene por request de express(como el body, los params y eso) y le injecto la propiedad user con las propiedades email y role.
 interface RequestWhitUser extends Request {
   user: { email: string; role: string };
@@ -33,8 +48,24 @@ export class AuthController {
   userProfile(@ActiveUser() user: UserActiveInterface) {
     return this.authService.profile(user);
   }
+
+  @Patch('updateUser/:id')
+  updateRUserFromAdmin(
+    @Param('id') id: string,
+    @Body() action: AdminActionDto,
+  ) {
+    const data = {
+      id,
+      action,
+    };
+    return this.authService.updateRoleOrDesactivateUser(data);
+  }
+@Post('createUserAdmin')
+createUserFromAdmin(@Body() createUserFromAdmin: CreateUserFromAdminDto){
+  return this.authService.createUserFromAdmin(createUserFromAdmin);
+}
   @Post('register/google')
-  registerUserGoogle(@Body() {credential}){
-    return this.authService.registerUserGoogle(credential)
+  registerUserGoogle(@Body() { credential }) {
+    return this.authService.registerUserGoogle(credential);
   }
 }

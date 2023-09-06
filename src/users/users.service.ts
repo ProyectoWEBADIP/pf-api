@@ -8,6 +8,7 @@ import { User } from './entities/user.entity';
 import { Profile } from './entities/profile.entity';
 import { Repository } from 'typeorm';
 import { CreateProfileDto } from './dto/create-profile.dto';
+import { UpdateRoleDesactiveUserDto, UserUpdatedRowsDto } from 'src/auth/dto/update-role-desactive-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -90,7 +91,18 @@ export class UsersService {
       );
     }
   }
-
+  async updateUserFromAdmin(id: string, userFields: UserUpdatedRowsDto) {
+    const userFound = await this.userRepository.findOneById(id);
+    if (userFound) {
+      await this.userRepository.update(id, userFields);
+      return `Los datos del usuario fueron actualizados con éxito.`;
+    } else {
+      return new HttpException(
+        'No se encontró al usuario.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
   async createProfile(id: string, profile: CreateProfileDto) {
     let userFound: User;
     try {
@@ -108,9 +120,5 @@ export class UsersService {
     userFound.active = true; //Lo pongo en active, quiere decir que ya tiene un perfil.
 
     return await this.userRepository.save(userFound);
-  }
-
-  async removeUser(id: string) {
-    return `This action removes a #${id} user`;
   }
 }

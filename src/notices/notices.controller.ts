@@ -43,7 +43,7 @@ export class NoticesController {
     return this.noticesServices.getNotices();
   }
 
-  @Get('')
+  @Get(':id')
   getNoticeById(@Param('id', ParseIntPipe) id: number): Promise<Notice[]> {
     return this.noticesServices.getNoticeById(id);
   }

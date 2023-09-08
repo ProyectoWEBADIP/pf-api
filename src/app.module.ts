@@ -11,6 +11,7 @@ import { NoticesModule } from './notices/notices.module';
 import { RolesModule } from './roles/roles.module';
 import { CommentsModule } from './comments/comments.module';
 import { Comments } from './comments/entities/comments.entity';
+import { SponsorsModule } from './sponsors/sponsors.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { Comments } from './comments/entities/comments.entity';
     CategoriesModule,
     NoticesModule,
     RolesModule,
+    SponsorsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

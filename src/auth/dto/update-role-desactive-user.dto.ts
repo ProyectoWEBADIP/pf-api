@@ -5,6 +5,7 @@ import { Role } from 'src/common/enums/roles.enum';
 export class UserUpdatedRowsDto {
 role?: Role
 active?: boolean
+razonBan?: string
 }
 
 export class  AdminActionDto {

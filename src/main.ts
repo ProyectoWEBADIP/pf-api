@@ -8,7 +8,6 @@ async function bootstrap() {
   //PARA QUE FUNCIONE EL CLASS VALIDATOR
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true,
       forbidNonWhitelisted: true,
       transform: true,
     }),

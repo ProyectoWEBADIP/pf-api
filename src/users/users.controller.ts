@@ -4,6 +4,7 @@ import {
   Get,
   Post,
   Body,
+  Query,
   Patch,
   Param,
 } from '@nestjs/common';
@@ -29,7 +30,10 @@ export class UsersController {
   findAllUsers() {
     return this.usersService.findAllUsers();
   }
-
+  @Get('email')
+  findOneByEmail( @Query('email') email: string,) {
+    return this.usersService.findOneByEmail(email);
+  }
   @Get(':id')
   findOneById(@Param('id') id: string) {
     return this.usersService.findOneById(id);

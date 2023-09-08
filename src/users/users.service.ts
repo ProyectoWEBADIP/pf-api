@@ -9,6 +9,7 @@ import { Profile } from './entities/profile.entity';
 import { Repository } from 'typeorm';
 import { CreateProfileDto } from './dto/create-profile.dto';
 import { UpdateRoleDesactiveUserDto, UserUpdatedRowsDto } from 'src/auth/dto/update-role-desactive-user.dto';
+import * as bcryptjs from 'bcryptjs';
 
 @Injectable()
 export class UsersService {
@@ -81,6 +82,9 @@ export class UsersService {
 
   async updateUser(id: string, userFields: UpdateUserDto) {
     const userFound = await this.userRepository.findOneById(id);
+    if(userFields.password){
+      userFields.password = await bcryptjs.hash(userFields.password, 10)
+    }
     if (userFound) {
       await this.userRepository.update(id, userFields);
       return `Tus datos fueron actualizados con éxito.`;

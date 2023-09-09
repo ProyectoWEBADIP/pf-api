@@ -7,7 +7,6 @@ import { Repository, ILike, SelectQueryBuilder } from 'typeorm';
 import { CreateNoticeDto } from './dto/create-notice.dto';
 import { UpdateNoticeDto } from './dto/update-notice.dto';
 import { CategoriesService } from 'src/categories/categories.service';
-import { Category } from 'src/categories/entities/categorie.entity';
 
 @Injectable()
 export class NoticesService {
@@ -86,12 +85,38 @@ export class NoticesService {
     return this.noticeRepository.delete({ id });
   }
   async updateNotice(id: number, notice: UpdateNoticeDto) {
-    const noticeFound = await this.noticeRepository.findOne({ where: { id } });
+    const noticeFound = await this.noticeRepository.findOne({
+      where: { id },
+      relations: ['categories'],
+    });
     if (!noticeFound) {
       throw new HttpException('Noticia no encontrada', HttpStatus.NOT_FOUND);
     }
-    const updateNotice = Object.assign(noticeFound, notice);
-    return this.noticeRepository.save(updateNotice);
+    const { categoryIds, ...noticeData } = notice;
+    const categories =
+      await this.categoriesService.getCategoriesByIds(categoryIds);
+    if (categories.length === 0) {
+      throw new HttpException(
+        'One or more categories not found',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    noticeFound.categories = categories;
+    noticeFound.title = noticeData.title;
+    noticeFound.content = noticeData.content;
+    noticeFound.image = noticeData.image;
+    noticeFound.resume = noticeData.resume;
+    noticeFound.active = noticeData.active;
+
+    if (notice.categoryIds) {
+      const categories = await this.categoriesService.getCategoriesByIds(
+        notice.categoryIds,
+      );
+    }
+
+    noticeFound.categories = categories;
+
+    return await this.noticeRepository.save(noticeFound);
   }
 
   async getNoticesByTitlePartial(titlePartial: string) {

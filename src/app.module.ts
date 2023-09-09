@@ -12,6 +12,7 @@ import { RolesModule } from './roles/roles.module';
 import { CommentsModule } from './comments/comments.module';
 import { Comments } from './comments/entities/comments.entity';
 import { SponsorsModule } from './sponsors/sponsors.module';
+import { PaymentController } from './payments_mp/PaymentController';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { SponsorsModule } from './sponsors/sponsors.module';
     NoticesModule,
     RolesModule,
     SponsorsModule,
+    PaymentController,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -31,9 +31,9 @@ export class User {
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
-  @Column({type:'text', nullable:true})
+  @Column({ type: 'text', nullable: true })
   razonBan: string;
-  
+
   @DeleteDateColumn()
   deletedAt: Date; //! PARA BORRADO LOGICO
 
@@ -41,7 +41,6 @@ export class User {
   authStrategy: string;
 
   @Column({ default: false, nullable: true })
-  
   active: boolean;
 
   @Column({ type: 'enum', enum: Role, default: Role.USER })

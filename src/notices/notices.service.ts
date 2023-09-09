@@ -68,6 +68,7 @@ export class NoticesService {
   async getNoticeById(id: number) {
     const noticeFound = await this.noticeRepository.find({
       where: { id },
+      relations: ['categories'],
     });
 
     if (!noticeFound) {

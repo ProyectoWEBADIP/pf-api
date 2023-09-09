@@ -15,7 +15,7 @@ export class RolesService {
   async createRol(rolDto: CreateRolDto) {
     const rolFound = await this.rolRepository.findOne({
       where: {
-        rol: rolDto.rol,
+        genero: rolDto.genero,
       },
     });
 

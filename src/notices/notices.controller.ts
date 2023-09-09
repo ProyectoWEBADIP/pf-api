@@ -55,9 +55,16 @@ export class NoticesController {
   //   return this.noticesServices.createNotice(newNotice);
   // }
 
-  @Delete(':id')
-  deleteNotice(@Param('id', ParseIntPipe) id: number) {
-    return this.noticesServices.deletNotice(id);
+  // @Delete(':id')
+  // deleteNotice(@Param('id', ParseIntPipe) id: number) {
+  //   return this.noticesServices.deletNotice(id);
+  // }
+  @Patch('inact/:id')
+  updateNoticeStatus(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateNoticeStatusDto: UpdateNoticeDto,
+  ) {
+    return this.noticesServices.updateNoticeStatus(id, updateNoticeStatusDto);
   }
 
   @Patch(':id')

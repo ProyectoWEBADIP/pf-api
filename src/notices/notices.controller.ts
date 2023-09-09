@@ -55,6 +55,7 @@ export class NoticesController {
   //   return this.noticesServices.createNotice(newNotice);
   // }
 
+
   @Patch('inact/:id')
   updateNoticeStatus(
     @Param('id', ParseIntPipe) id: number,

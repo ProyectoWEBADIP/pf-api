@@ -80,11 +80,6 @@ export class NoticesService {
   //     where: { id },
   //   });
 
-  //   if (!noticeFound) {
-  //     throw new HttpException('Notice not found', HttpStatus.NOT_FOUND);
-  //   }
-  //   return this.noticeRepository.delete({ id });
-  // }
   async updateNoticeStatus(id: number, updateNoticeStatusDto: UpdateNoticeDto) {
     const noticeFound = await this.noticeRepository.findOne({ where: { id } });
     if (!noticeFound) {
@@ -97,6 +92,7 @@ export class NoticesService {
 
     return noticeFound;
   }
+
   async updateNotice(id: number, notice: UpdateNoticeDto) {
     const noticeFound = await this.noticeRepository.findOne({
       where: { id },

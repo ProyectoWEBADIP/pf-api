@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -36,9 +37,8 @@ import { PaymentController } from './payments_mp/PaymentController';
     NoticesModule,
     RolesModule,
     SponsorsModule,
-    PaymentController,
   ],
-  controllers: [AppController],
+  controllers: [AppController, PaymentController],
   providers: [AppService],
 })
 export class AppModule {}

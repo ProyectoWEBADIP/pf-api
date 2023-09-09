@@ -36,9 +36,8 @@ import { PaymentController } from './payments_mp/PaymentController';
     NoticesModule,
     RolesModule,
     SponsorsModule,
-    PaymentController,
   ],
-  controllers: [AppController],
+  controllers: [AppController, PaymentController],
   providers: [AppService],
 })
 export class AppModule {}

@@ -13,7 +13,8 @@ import { RolesModule } from './roles/roles.module';
 import { CommentsModule } from './comments/comments.module';
 import { Comments } from './comments/entities/comments.entity';
 import { SponsorsModule } from './sponsors/sponsors.module';
-import { PaymentController } from './payments_mp/PaymentController';
+import { PaymentModule } from './payment/payment.module';
+import { initializeMercadoPago } from './config/mercadopago.config';
 
 @Module({
   imports: [
@@ -37,8 +38,13 @@ import { PaymentController } from './payments_mp/PaymentController';
     NoticesModule,
     RolesModule,
     SponsorsModule,
+    PaymentModule,
   ],
-  controllers: [AppController, PaymentController],
+  controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(){
+    initializeMercadoPago()
+  }
+}

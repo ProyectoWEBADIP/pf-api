@@ -13,8 +13,6 @@ export class CreateSponsorDto {
   active: boolean;
 
   @IsNotEmpty()
-  @IsNumber()
-  @Min(0, { message: 'La ubicación debe ser al menos 0' })
-  @Max(20, { message: 'La ubicación debe ser máximo 20' })
+  @IsNumber() 
   location: number;
 }

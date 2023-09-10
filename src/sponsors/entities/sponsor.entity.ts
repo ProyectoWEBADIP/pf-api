@@ -15,9 +15,7 @@ export class Sponsor {
   @Column()
   active: boolean;
 
-  @Column('int')
-  @Min(0, { message: 'La ubicación debe ser al menos 0' })
-  @Max(20, { message: 'La ubicación debe ser máximo 20' })
+  @Column('int')  
   location: number;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })

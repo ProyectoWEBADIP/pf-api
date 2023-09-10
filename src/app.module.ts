@@ -13,6 +13,7 @@ import { CommentsModule } from './comments/comments.module';
 import { Comments } from './comments/entities/comments.entity';
 import { SponsorsModule } from './sponsors/sponsors.module';
 import { PaymentController } from './payments_mp/PaymentController';
+import { SubCategoriesModule } from './subCategories/subcategories.module';
 
 @Module({
   imports: [
@@ -36,9 +37,9 @@ import { PaymentController } from './payments_mp/PaymentController';
     NoticesModule,
     RolesModule,
     SponsorsModule,
-    PaymentController,
+    SubCategoriesModule,
   ],
-  controllers: [AppController],
+  controllers: [AppController, PaymentController],
   providers: [AppService],
 })
 export class AppModule {}

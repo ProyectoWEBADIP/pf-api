@@ -15,6 +15,7 @@ import { Comments } from './comments/entities/comments.entity';
 import { SponsorsModule } from './sponsors/sponsors.module';
 import { PaymentModule } from './payment/payment.module';
 import { initializeMercadoPago } from './config/mercadopago.config';
+import { SubCategoriesModule } from './subCategories/subcategories.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { initializeMercadoPago } from './config/mercadopago.config';
     RolesModule,
     SponsorsModule,
     PaymentModule,
+    SubCategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

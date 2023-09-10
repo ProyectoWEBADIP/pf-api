@@ -75,16 +75,24 @@ export class NoticesService {
     }
     return noticeFound;
   }
-  async deletNotice(id: number) {
-    const noticeFound = await this.noticeRepository.find({
-      where: { id },
-    });
+  // async deletNotice(id: number) {
+  //   const noticeFound = await this.noticeRepository.find({
+  //     where: { id },
+  //   });
 
+  async updateNoticeStatus(id: number, updateNoticeStatusDto: UpdateNoticeDto) {
+    const noticeFound = await this.noticeRepository.findOne({ where: { id } });
     if (!noticeFound) {
       throw new HttpException('Notice not found', HttpStatus.NOT_FOUND);
     }
-    return this.noticeRepository.delete({ id });
+
+    noticeFound.active = updateNoticeStatusDto.active;
+
+    await this.noticeRepository.save(noticeFound);
+
+    return noticeFound;
   }
+
   async updateNotice(id: number, notice: UpdateNoticeDto) {
     const noticeFound = await this.noticeRepository.findOne({
       where: { id },

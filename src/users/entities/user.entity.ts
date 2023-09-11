@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { Profile } from './profile.entity';
 import { Notice } from 'src/notices/notice.entity';
+import { Rol } from 'src/roles/entities/rol.entity';
 import { Comments } from 'src/comments/entities/comments.entity';
 import { Role } from '../../common/enums/roles.enum';
 
@@ -49,6 +50,10 @@ export class User {
   @OneToOne(() => Profile)
   @JoinColumn()
   profile: Profile;
+
+  @OneToOne(() => Rol)
+  @JoinColumn({ name: 'rol_id' })
+  rol: Rol;
 
   @OneToMany(() => Notice, (notice) => notice.user)
   notice: Notice[];

@@ -1,21 +1,18 @@
 import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-@Entity({ name: 'sponsors' })
-export class Sponsor {
+@Entity({ name: 'subCategory' })
+export class SubCategory {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
-  title: string;
+  @Column({ unique: true, length: 30 })
+  subCategory: string;
 
-  @Column()
-  image: string;
+  @Column({ unique: true, length: 2000 })
+  description: string;
 
   @Column()
   active: boolean;
-
-  @Column()
-  location: number;
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;

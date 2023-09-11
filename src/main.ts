@@ -2,9 +2,11 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import './config/mercadopago.config';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
+
   //PARA QUE FUNCIONE EL CLASS VALIDATOR
   app.useGlobalPipes(
     new ValidationPipe({
@@ -12,8 +14,8 @@ async function bootstrap() {
       transform: true,
     }),
   );
-   // Configuración de encabezados CORS
-   app.enableCors({
+  // Configuración de encabezados CORS
+  app.enableCors({
     origin: 'http://localhost:5173', // Cambia esto por el origen correcto
     methods: 'GET, POST, PUT, DELETE, PATCH',
     allowedHeaders: 'Content-Type, Authorization',

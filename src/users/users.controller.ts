@@ -12,6 +12,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateProfileDto } from './dto/create-profile.dto';
+import { CreateRolDto } from 'src/roles/dto/create-rol.dto';
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -26,12 +27,17 @@ export class UsersController {
     return this.usersService.createProfile(id, profile);
   }
 
+  @Post(':id/rol')
+  createRol(@Param('id') id: string, @Body() rol: CreateRolDto) {
+    return this.usersService.createRol(id, rol);
+  }
+
   @Get()
   findAllUsers() {
     return this.usersService.findAllUsers();
   }
   @Get('email')
-  findOneByEmail( @Query('email') email: string,) {
+  findOneByEmail(@Query('email') email: string) {
     return this.usersService.findOneByEmail(email);
   }
   @Get(':id')
@@ -43,5 +49,4 @@ export class UsersController {
   updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.updateUser(id, updateUserDto);
   }
-
 }

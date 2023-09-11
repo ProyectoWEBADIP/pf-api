@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsBoolean, IsNotEmpty, IsNumber, Min, Max } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateSponsorDto {
   @IsNotEmpty()
@@ -13,6 +13,6 @@ export class CreateSponsorDto {
   active: boolean;
 
   @IsNotEmpty()
-  @IsNumber() 
+  @IsNumber()
   location: number;
 }

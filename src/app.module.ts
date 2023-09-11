@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -12,6 +13,9 @@ import { RolesModule } from './roles/roles.module';
 import { CommentsModule } from './comments/comments.module';
 import { Comments } from './comments/entities/comments.entity';
 import { SponsorsModule } from './sponsors/sponsors.module';
+import { PaymentModule } from './payment/payment.module';
+import { initializeMercadoPago } from './config/mercadopago.config';
+import { SubCategoriesModule } from './subCategories/subcategories.module';
 
 @Module({
   imports: [
@@ -35,8 +39,14 @@ import { SponsorsModule } from './sponsors/sponsors.module';
     NoticesModule,
     RolesModule,
     SponsorsModule,
+    PaymentModule,
+    SubCategoriesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(){
+    initializeMercadoPago()
+  }
+}

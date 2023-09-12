@@ -138,7 +138,7 @@ export class UsersService {
     return await this.userRepository.save(userFound);
   }
 
-  async createRol(id: string, rol: CreateRolDto) {
+  /* async createRol(id: string, rol: CreateRolDto) {
     let userFound: User;
     try {
       userFound = await this.userRepository.findOne({
@@ -155,5 +155,5 @@ export class UsersService {
     userFound.active = true; //Lo pongo en active, quiere decir que ya tiene un perfil.
 
     return await this.userRepository.save(userFound);
-  }
+  } */
 }

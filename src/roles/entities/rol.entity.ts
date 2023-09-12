@@ -6,14 +6,8 @@ export class Rol {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ length: 1 })
-  genero: string;
-
-  @Column({ unique: true, length: 50 })
-  category: string;
-
-  @Column({ unique: true, length: 50 })
-  subCategory: string;
+  @Column()
+  title: string;
 
   @Column()
   description: string;

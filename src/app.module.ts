@@ -16,6 +16,7 @@ import { SponsorsModule } from './sponsors/sponsors.module';
 import { PaymentModule } from './payment/payment.module';
 import { initializeMercadoPago } from './config/mercadopago.config';
 import { SubCategoriesModule } from './subCategories/subcategories.module';
+import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
   imports: [
@@ -41,12 +42,13 @@ import { SubCategoriesModule } from './subCategories/subcategories.module';
     SponsorsModule,
     PaymentModule,
     SubCategoriesModule,
+    NotificationsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
 })
 export class AppModule {
-  constructor(){
-    initializeMercadoPago()
+  constructor() {
+    initializeMercadoPago();
   }
 }

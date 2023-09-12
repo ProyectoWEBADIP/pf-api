@@ -19,7 +19,6 @@ import { GeneralModule } from './general/general.module';
 import { LigasModule } from './ligas/ligas.module';
 import { CategoryModule } from './category/category.module';
 import { PartidosModule } from './partidos/partidos.module';
-import { SubCategoriesModule } from './subCategories/subcategories.module';
 import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
@@ -49,7 +48,6 @@ import { NotificationsModule } from './notifications/notifications.module';
     LigasModule,
     CategoryModule,
     PartidosModule,
-    SubCategoriesModule,
     NotificationsModule,
   ],
   controllers: [AppController],

@@ -15,12 +15,12 @@ export class RolesService {
   async createRol(rolDto: CreateRolDto) {
     const rolFound = await this.rolRepository.findOne({
       where: {
-        genero: rolDto.genero,
+        title: rolDto.title,
       },
     });
 
     if (rolFound) {
-      throw new HttpException('Rol already exists', HttpStatus.CONFLICT);
+      throw new HttpException('Rol ya existe', HttpStatus.CONFLICT);
     }
 
     const newRol = this.rolRepository.create(rolDto);
@@ -36,7 +36,7 @@ export class RolesService {
       where: { id },
     });
     if (!rolFound) {
-      throw new HttpException('Rol not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Rol no encontrado', HttpStatus.NOT_FOUND);
     }
     return rolFound;
   }
@@ -47,7 +47,7 @@ export class RolesService {
     });
 
     if (!rolFound) {
-      throw new HttpException('Rol not found', HttpStatus.NOT_FOUND);
+      throw new HttpException('Rol no encontrado', HttpStatus.NOT_FOUND);
     }
 
     return this.rolRepository.delete({ id });
@@ -59,7 +59,7 @@ export class RolesService {
     });
 
     if (!rolFound) {
-      return new HttpException('Rol not found', HttpStatus.NOT_FOUND);
+      return new HttpException('Rol no encontrado', HttpStatus.NOT_FOUND);
     }
     const updateRol = Object.assign(rolFound, RolDto);
     return this.rolRepository.save(updateRol);

@@ -15,6 +15,10 @@ import { Comments } from './comments/entities/comments.entity';
 import { SponsorsModule } from './sponsors/sponsors.module';
 import { PaymentModule } from './payment/payment.module';
 import { initializeMercadoPago } from './config/mercadopago.config';
+import { GeneralModule } from './general/general.module';
+import { LigasModule } from './ligas/ligas.module';
+import { CategoryModule } from './category/category.module';
+import { PartidosModule } from './partidos/partidos.module';
 import { SubCategoriesModule } from './subCategories/subcategories.module';
 import { NotificationsModule } from './notifications/notifications.module';
 
@@ -41,6 +45,10 @@ import { NotificationsModule } from './notifications/notifications.module';
     RolesModule,
     SponsorsModule,
     PaymentModule,
+    GeneralModule,
+    LigasModule,
+    CategoryModule,
+    PartidosModule,
     SubCategoriesModule,
     NotificationsModule,
   ],

@@ -45,15 +45,18 @@ export class AuthService {
 
   async registerUser({ email, password, username }: RegisterDto) {
     const userFound = await this.usersService.findOneByEmail(email);
-    if (!userFound) {
+    if (typeof userFound ==='string') {
       const registeredUser = await this.usersService.createUser({
         email,
         password: await bcryptjs.hash(password, 10),
         username,
       });
-      return 'Usuario registrado con éxito.';
+      return {
+        message: 'Usuario registrado con éxito.',
+        registered: true
+      };
     } else {
-      return 'Correo electrónico ya existente.';
+      throw new HttpException('Correo electrónico ya existente.', HttpStatus.BAD_REQUEST)
     }
   }
 
@@ -69,10 +72,9 @@ export class AuthService {
     const userFound = await this.usersService.findOneByEmail(email);
     const password: string = email;
 
-    if (!userFound) {
+    if (typeof userFound!== 'string') {
       const username: string = updatedJwtPayload.name;
       await this.registerUser({ email, username, password });
-
       const access_token = await this.login({ email, password });
       const { id } = access_token;
       const response = {
@@ -81,15 +83,7 @@ export class AuthService {
         id,
       };
       return response;
-    } else {
-      const access_token = await this.login({ email, password });
-      const response = {
-        message: 'Iniciando sesión con Google...',
-        access_token,
-        id: userFound.id,
-      };
-      return response;
-    }
+    } 
   }
   async profile({ email, role }: { email: string; role: string }) {
     return await this.usersService.findOneByEmail(email);

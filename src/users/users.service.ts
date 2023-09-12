@@ -50,7 +50,11 @@ export class UsersService {
         email,
       },
     });
+  if(user){
     return user;
+  } else {
+    return 'Correo electrónico inexistente.'
+  }
   }
 
   async findByEmailWhitPassword(email: string) {

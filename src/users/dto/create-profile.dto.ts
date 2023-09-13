@@ -5,12 +5,22 @@ import { IsNotEmpty } from 'class-validator';
 export class CreateProfileDto {
   @IsNotEmpty()
   firstName: string;
+
   @IsNotEmpty()
   lastName: string;
+
   @IsNotEmpty()
   birthDate: Date;
+
   @IsNotEmpty()
   image?: string;
+
   @IsNotEmpty()
   dni: string;
+
+  @IsNotEmpty()
+  phone: string;
+
+  @IsNotEmpty()
+  gender: string;
 }

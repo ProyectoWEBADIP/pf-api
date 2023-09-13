@@ -10,6 +10,10 @@ export class CreateProfileDto {
   @IsNotEmpty()
   birthDate: Date;
   @IsNotEmpty()
+  phone: string;
+  @IsNotEmpty()
+  gender: string;
+  @IsNotEmpty()
   image?: string;
   @IsNotEmpty()
   dni: string;

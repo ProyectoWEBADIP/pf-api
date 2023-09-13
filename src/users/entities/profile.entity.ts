@@ -17,6 +17,11 @@ export class Profile {
   lastName: string;
 
   @Column()
+  gender: string;
+  @Column()
+  phone: string;
+
+  @Column()
   birthDate: Date;
 
   @Column({ nullable: true })

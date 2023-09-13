@@ -16,10 +16,10 @@ export class Profile {
   @Column()
   lastName: string;
 
-  @Column()
+  @Column({ nullable: true })
   gender: string;
 
-  @Column()
+  @Column({ nullable: true })
   phone: string;
 
   @Column()

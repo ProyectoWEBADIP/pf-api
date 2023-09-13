@@ -15,7 +15,10 @@ import { Comments } from './comments/entities/comments.entity';
 import { SponsorsModule } from './sponsors/sponsors.module';
 import { PaymentModule } from './payment/payment.module';
 import { initializeMercadoPago } from './config/mercadopago.config';
-import { SubCategoriesModule } from './subCategories/subcategories.module';
+import { GeneralModule } from './general/general.module';
+import { LigasModule } from './ligas/ligas.module';
+import { CategoryModule } from './category/category.module';
+import { PartidosModule } from './partidos/partidos.module';
 import { NotificationsModule } from './notifications/notifications.module';
 
 @Module({
@@ -41,7 +44,10 @@ import { NotificationsModule } from './notifications/notifications.module';
     RolesModule,
     SponsorsModule,
     PaymentModule,
-    SubCategoriesModule,
+    GeneralModule,
+    LigasModule,
+    CategoryModule,
+    PartidosModule,
     NotificationsModule,
   ],
   controllers: [AppController],

@@ -5,7 +5,7 @@ export class Sponsor {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column({ unique: true })
+  @Column()
   title: string;
 
   @Column()

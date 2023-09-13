@@ -1,50 +1,38 @@
 /* eslint-disable prettier/prettier */
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@Entity('partidos')
+@Entity({ name: 'partidos' })
 export class Partido {
   @PrimaryGeneratedColumn()
   id: number;
 
+  @Column()
+  title: string;
+
+  @Column({ type: 'varchar', length: 50 })
+  category_name: string;
+
+  @Column({ type: 'varchar', length: 50 })
+  competence: string;
+
+  @Column({ type: 'varchar', length: 200 })
+  Local_shield: string;
+
+  @Column({ type: 'varchar', length: 200 })
+  visitor_shield: string;
+
   @Column({ type: 'date' })
-  fecha: Date;
+  date: Date;
 
-  @Column({ type: 'varchar', length: 100 })
-  equipoLocal: string;
+  @Column({ type: 'varchar', length: 500 })
+  location: string;
 
-  @Column({ type: 'varchar', length: 100 })
-  equipoVisitante: string;
-
-  @Column({ type: 'int' })
-  golesLocal: number;
-
-  @Column({ type: 'int' })
-  golesVisitante: number;
-
-  @Column({ type: 'varchar', length: 50 })
-  resultado: string;
-
-  @Column({ type: 'int' })
-  jornada: number;
-
-  @Column({ type: 'int' })
-  temporada: number;
-
-  @Column({ type: 'varchar', length: 50 })
-  competicion: string;
-
-  @Column({ type: 'varchar', length: 50 })
+  @Column({ type: 'text' })
   description: string;
 
-  @Column({ type: 'varchar', length: 10 })
-  fechaActualizacion: Date;
+  @Column({ type: 'int' })
+  home_goals: number;
 
-  @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
-  fechaCreacion: Date;
-
-  @Column({ type: 'varchar', length: 100 })
-  usuarioCreacion: string;
-
-  @Column({ type: 'varchar', length: 100 })
-  usuarioActualizacion: string;
+  @Column({ type: 'int' })
+  visitor_goals: number;
 }

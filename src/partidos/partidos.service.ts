@@ -1,26 +1,70 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreatePartidoDto } from './dto/create-partido.dto';
 import { UpdatePartidoDto } from './dto/update-partido.dto';
+import { Partido } from './entities/partido.entity';
 
 @Injectable()
 export class PartidosService {
-  create(createPartidoDto: CreatePartidoDto) {
-    return 'This action adds a new partido';
+  constructor(
+    @InjectRepository(Partido)
+    private partidoRepository: Repository<Partido>,
+  ) {}
+
+  async createPartido(createDto: CreatePartidoDto) {
+    const partidoFound = await this.partidoRepository.findOne({
+      where: {
+        description: createDto.description,
+      },
+    });
+
+    if (partidoFound) {
+      throw new HttpException(
+        'No puede tener la misma descripcion.',
+        HttpStatus.CONFLICT,
+      );
+    }
+
+    const newPartido = this.partidoRepository.create(createDto);
+    return await this.partidoRepository.save(newPartido);
   }
 
-  findAll() {
-    return `This action returns all partidos`;
+  getPartidos() {
+    return this.partidoRepository.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} partido`;
+  async getPartido(id: number) {
+    const partidoFound = await this.partidoRepository.findOne({
+      where: { id },
+    });
+    if (!partidoFound) {
+      throw new HttpException('Partido no encontrado', HttpStatus.NOT_FOUND);
+    }
+    return partidoFound;
   }
 
-  update(id: number, updatePartidoDto: UpdatePartidoDto) {
-    return `This action updates a #${id} partido`;
+  async deletePartido(id: number) {
+    const partidoFound = await this.partidoRepository.findOne({
+      where: { id },
+    });
+
+    if (!partidoFound) {
+      throw new HttpException('Partido no encontrado', HttpStatus.NOT_FOUND);
+    }
+
+    return this.partidoRepository.delete({ id });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} partido`;
+  async updatePartido(id: number, UpdateDto: UpdatePartidoDto) {
+    const partidoFound = await this.partidoRepository.findOne({
+      where: { id },
+    });
+
+    if (!partidoFound) {
+      return new HttpException('Partido no encontrado', HttpStatus.NOT_FOUND);
+    }
+    const updatePartido = Object.assign(partidoFound, UpdateDto);
+    return this.partidoRepository.save(updatePartido);
   }
 }

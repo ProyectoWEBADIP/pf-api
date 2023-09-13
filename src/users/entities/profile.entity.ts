@@ -16,6 +16,12 @@ export class Profile {
   @Column()
   lastName: string;
 
+  @Column({ nullable: true })
+  gender: string;
+
+  @Column({ nullable: true })
+  phone: string;
+
   @Column()
   gender: string;
   @Column()

@@ -49,7 +49,7 @@ export class Notice {
 
   @Column({ default: true })
   active: boolean;
-
+  //Noticias
   @ManyToOne(() => User, (user) => user.notice)
   @JoinColumn({ name: 'user_id' })
   user: User;

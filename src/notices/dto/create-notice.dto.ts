@@ -35,4 +35,8 @@ export class CreateNoticeDto {
   @IsNotEmpty()
   @IsBoolean()
   active: boolean;
+
+  @IsNotEmpty()
+  @IsString()
+  user_id: string;
 }

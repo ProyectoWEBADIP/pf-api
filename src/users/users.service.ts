@@ -74,7 +74,7 @@ export class UsersService {
 
   async findAllUsers() {
     return await this.userRepository.find({
-      relations: ['profile', 'rol'],
+      relations: ['profile'],
     }); //AGREGUÉ RELATIONS, SI NO FUNCIONA, SACARLO.
   }
 
@@ -83,7 +83,7 @@ export class UsersService {
       where: {
         id,
       },
-      relations: ['profile', 'rol'],
+      relations: ['profile'],
     });
     if (user) {
       return user;

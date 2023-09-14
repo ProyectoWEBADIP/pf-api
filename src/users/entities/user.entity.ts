@@ -54,7 +54,7 @@ export class User {
   @OneToOne(() => Rol)
   @JoinColumn({ name: 'rol_id' })
   rol: Rol;
-
+  //noticias
   @OneToMany(() => Notice, (notice) => notice.user)
   notice: Notice[];
 

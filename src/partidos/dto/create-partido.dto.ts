@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString, IsNumber } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreatePartidoDto {
   @IsNotEmpty()
@@ -23,7 +23,7 @@ export class CreatePartidoDto {
 
   @IsNotEmpty()
   @IsString()
-  date: Date;
+  date: string;
 
   @IsNotEmpty()
   @IsString()
@@ -33,11 +33,9 @@ export class CreatePartidoDto {
   @IsString()
   description: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  home_goals: number;
+  @IsString()
+  home_goals: string;
 
-  @IsNotEmpty()
-  @IsNumber()
-  visitor_goals: number;
+  @IsString()
+  visitor_goals: string;
 }

@@ -21,8 +21,8 @@ export class Partido {
   @Column({ type: 'varchar', length: 200 })
   visitor_shield: string;
 
-  @Column({ type: 'date' })
-  date: Date;
+  @Column({ type: 'varchar', length: 100 })
+  date: string;
 
   @Column({ type: 'varchar', length: 500 })
   location: string;
@@ -30,9 +30,9 @@ export class Partido {
   @Column({ type: 'text' })
   description: string;
 
-  @Column({ type: 'int' })
-  home_goals: number;
+  @Column()
+  home_goals: string;
 
-  @Column({ type: 'int' })
-  visitor_goals: number;
+  @Column()
+  visitor_goals: string;
 }

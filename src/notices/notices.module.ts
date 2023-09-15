@@ -4,9 +4,10 @@ import { NoticesService } from './notices.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Notice } from './notice.entity';
 import { CategoriesModule } from 'src/categories/categories.module';
+import { User } from 'src/users/entities/user.entity';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Notice]), CategoriesModule],
+  imports: [TypeOrmModule.forFeature([Notice, User]), CategoriesModule],
   controllers: [NoticesController],
   providers: [NoticesService],
   exports: [NoticesService],

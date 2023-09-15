@@ -7,12 +7,14 @@ import { Repository, ILike, SelectQueryBuilder } from 'typeorm';
 import { CreateNoticeDto } from './dto/create-notice.dto';
 import { UpdateNoticeDto } from './dto/update-notice.dto';
 import { CategoriesService } from 'src/categories/categories.service';
+import { User } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class NoticesService {
   constructor(
     @InjectRepository(Notice) private noticeRepository: Repository<Notice>,
     private categoriesService: CategoriesService,
+    @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
   // async createNotice(notice: CreateNoticeDto) {
@@ -96,12 +98,14 @@ export class NoticesService {
   async updateNotice(id: number, notice: UpdateNoticeDto) {
     const noticeFound = await this.noticeRepository.findOne({
       where: { id },
-      relations: ['categories'],
+      relations: ['categories', 'user'],
     });
+
     if (!noticeFound) {
       throw new HttpException('Noticia no encontrada', HttpStatus.NOT_FOUND);
     }
-    const { categoryIds, ...noticeData } = notice;
+    const { user_id, categoryIds, ...noticeData } = notice;
+
     const categories =
       await this.categoriesService.getCategoriesByIds(categoryIds);
     if (categories.length === 0) {
@@ -110,12 +114,21 @@ export class NoticesService {
         HttpStatus.NOT_FOUND,
       );
     }
+
+    const user = await this.userRepository.findOne({
+      where: { id: user_id },
+    });
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
     noticeFound.categories = categories;
     noticeFound.title = noticeData.title;
     noticeFound.content = noticeData.content;
     noticeFound.image = noticeData.image;
     noticeFound.resume = noticeData.resume;
     noticeFound.active = noticeData.active;
+    noticeFound.user = user;
 
     if (notice.categoryIds) {
       const categories = await this.categoriesService.getCategoriesByIds(
@@ -143,7 +156,7 @@ export class NoticesService {
 
   async createNotice(createNoticeDto: CreateNoticeDto) {
     try {
-      const { categoryIds, ...noticeData } = createNoticeDto;
+      const { user_id, categoryIds, ...noticeData } = createNoticeDto;
 
       const categories =
         await this.categoriesService.getCategoriesByIds(categoryIds);
@@ -154,16 +167,23 @@ export class NoticesService {
         );
       }
 
+      const user = await this.userRepository.findOne({
+        where: { id: user_id },
+      });
+      if (!user) {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      }
+
       const newNotice = new Notice(
         noticeData.title,
         noticeData.content,
         noticeData.image,
         noticeData.resume,
         categories,
+        user,
       );
 
       await this.noticeRepository.save(newNotice);
-
       return newNotice;
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);

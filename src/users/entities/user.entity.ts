@@ -14,6 +14,7 @@ import { Notice } from 'src/notices/notice.entity';
 import { Rol } from 'src/roles/entities/rol.entity';
 import { Comments } from 'src/comments/entities/comments.entity';
 import { Role } from '../../common/enums/roles.enum';
+import { Sponsor } from 'src/sponsors/entities/sponsor.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -60,4 +61,7 @@ export class User {
 
   @OneToMany(() => Comments, (comments) => comments.user)
   comments: Comments[];
+
+  @OneToMany(() => Sponsor, (sponsor) => sponsor.user)
+  sponsor: Sponsor[];
 }

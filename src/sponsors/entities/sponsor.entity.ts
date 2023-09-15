@@ -1,7 +1,28 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { User } from 'src/users/entities/user.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 
 @Entity({ name: 'sponsors' })
 export class Sponsor {
+  constructor(
+    title: string,
+    image: string,
+    active: boolean,
+    location: number,
+    user: User,
+  ) {
+    this.title = title;
+    this.image = image;
+    this.active = active;
+    this.location = location;
+    this.user = user;
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -19,4 +40,8 @@ export class Sponsor {
 
   @Column({ type: 'timestamp', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
+
+  @ManyToOne(() => User, (user) => user.sponsor)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 }

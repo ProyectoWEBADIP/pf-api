@@ -100,12 +100,12 @@ export class NoticesService {
       where: { id },
       relations: ['categories', 'user'],
     });
-    console.log('NoticeFound', noticeFound);
+
     if (!noticeFound) {
       throw new HttpException('Noticia no encontrada', HttpStatus.NOT_FOUND);
     }
-    const { categoryIds, ...noticeData } = notice;
-    console.log('notice', notice);
+    const { user_id, categoryIds, ...noticeData } = notice;
+
     const categories =
       await this.categoriesService.getCategoriesByIds(categoryIds);
     if (categories.length === 0) {
@@ -114,13 +114,22 @@ export class NoticesService {
         HttpStatus.NOT_FOUND,
       );
     }
-    console.log(noticeFound.user);
+
+    const user = await this.userRepository.findOne({
+      where: { id: user_id },
+    });
+    if (!user) {
+      throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+    }
+
     noticeFound.categories = categories;
     noticeFound.title = noticeData.title;
     noticeFound.content = noticeData.content;
     noticeFound.image = noticeData.image;
     noticeFound.resume = noticeData.resume;
     noticeFound.active = noticeData.active;
+    noticeFound.user = user;
+
     if (notice.categoryIds) {
       const categories = await this.categoriesService.getCategoriesByIds(
         notice.categoryIds,

@@ -1,15 +1,20 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Rol } from './entities/rol.entity';
 import { Repository } from 'typeorm';
+//rol
+import { Rol } from './entities/rol.entity';
 import { CreateRolDto } from './dto/create-rol.dto';
 import { UpdateRolDto } from './dto/update-rol.dto';
+//notification relations
+import { Notification } from '../notifications/entities/notification.entity';
 
 @Injectable()
 export class RolesService {
   constructor(
     @InjectRepository(Rol)
     private rolRepository: Repository<Rol>,
+    @InjectRepository(Notification)
+    private notificationRepository: Repository<Notification>,
   ) {}
 
   async createRol(rolDto: CreateRolDto) {

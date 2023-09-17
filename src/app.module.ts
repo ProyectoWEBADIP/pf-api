@@ -20,9 +20,13 @@ import { LigasModule } from './ligas/ligas.module';
 import { CategoryModule } from './category/category.module';
 import { PartidosModule } from './partidos/partidos.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { ConfigModule } from '@nestjs/config';
+
 
 @Module({
   imports: [
+    ConfigModule.forRoot()
+    ,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'ep-wandering-moon-99222123.us-east-2.aws.neon.tech',

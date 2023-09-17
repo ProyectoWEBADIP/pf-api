@@ -42,6 +42,7 @@ export class AuthController {
   registerUser(@Body() { email, password, username }: RegisterDto) {
     return this.authService.registerUser({ email, password, username });
   }
+
   @Get('profile')
   //Auth es un decorador que recopila todos los decoradores y los aplica al mismo tiempo
   @Auth(Role.USER)
@@ -64,6 +65,7 @@ export class AuthController {
 createUserFromAdmin(@Body() createUserFromAdmin: CreateUserFromAdminDto){
   return this.authService.createUserFromAdmin(createUserFromAdmin);
 }
+
   @Post('register/google')
   registerUserGoogle(@Body() { credential }) {
     return this.authService.registerUserGoogle(credential);

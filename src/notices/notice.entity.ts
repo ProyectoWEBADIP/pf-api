@@ -21,12 +21,14 @@ export class Notice {
     image: string,
     resume: string,
     categories: Category[],
+    user: User,
   ) {
     this.title = title;
     this.content = content;
     this.image = image;
     this.resume = resume;
     this.categories = categories; // Asigna el array de categorías
+    this.user = user; // Asigna el usuario
   }
 
   @PrimaryGeneratedColumn()
@@ -49,7 +51,7 @@ export class Notice {
 
   @Column({ default: true })
   active: boolean;
-
+  //Noticias
   @ManyToOne(() => User, (user) => user.notice)
   @JoinColumn({ name: 'user_id' })
   user: User;

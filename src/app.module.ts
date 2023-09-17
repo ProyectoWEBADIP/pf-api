@@ -25,19 +25,29 @@ import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot()
+    ConfigModule.forRoot(
+      {
+        isGlobal:true,
+      }
+    )
     ,
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'ep-wandering-moon-99222123.us-east-2.aws.neon.tech',
-      username: 'fl0user',
-      password: 'DzqKnH9WjL7h',
-      port: 5432,
-      database: 'adipdb',
+      host: `${process.env.PG_HOST}`,
+      username: `${process.env.POSTGRES_USER}`,
+      password: `${process.env.PG_PASSWORD}`,
+      port: parseInt(process.env.PG_PORT),
+      database: `${process.env.PG_DATABASE}`,
       entities: [__dirname + '/**/*.entity{.ts,.js}', Comments],
       synchronize: true,
-      ssl: {
-        rejectUnauthorized: false, // Esto indica que no deseas rechazar certificados no autorizados.
+      ssl: process.env.POSTGRES_SSL === "true",
+      extra: {
+        ssl:
+          process.env.POSTGRES_SSL === "true"
+            ? {
+                rejectUnauthorized: false,
+              }
+            : null,
       },
     }),
     UsersModule,

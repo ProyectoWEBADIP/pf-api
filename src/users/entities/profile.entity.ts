@@ -23,11 +23,6 @@ export class Profile {
   phone: string;
 
   @Column()
-  gender: string;
-  @Column()
-  phone: string;
-
-  @Column()
   birthDate: Date;
 
   @Column({ nullable: true })

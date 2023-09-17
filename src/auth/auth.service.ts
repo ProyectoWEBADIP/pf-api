@@ -66,24 +66,35 @@ export class AuthService {
     const payloadBuffer = Buffer.from(base64Payload, 'base64');
     const updatedJwtPayload = JSON.parse(payloadBuffer.toString());
     //TODO ESTO PARA DECODIFICAR EL JWT
-
     const email: string = updatedJwtPayload.email;
 
     const userFound = await this.usersService.findOneByEmail(email);
     const password: string = email;
 
-    if (typeof userFound!== 'string') {
+    if (typeof userFound === 'string') {
       const username: string = updatedJwtPayload.name;
       await this.registerUser({ email, username, password });
       const access_token = await this.login({ email, password });
       const { id } = access_token;
       const response = {
-        message: 'Te has registrado exitosamente.',
+        message: 'Te has registrado exitosamente con Google.',
         access_token,
         id,
       };
+
       return response;
-    } 
+    } else {
+      const access_token = await this.login({ email, password });
+      const { id } = access_token;
+      const response = {
+        message: 'Iniciando sesión con tu cuenta de Google...',
+        access_token,
+        id,
+      };
+
+      return response;
+
+    }
   }
   async profile({ email, role }: { email: string; role: string }) {
     return await this.usersService.findOneByEmail(email);

@@ -27,24 +27,25 @@ export class UsersController {
     return this.usersService.createProfile(id, profile);
   }
 
-  /*  @Post(':id/rol')
-  createRol(@Param('id') id: string, @Body() rol: CreateRolDto) {
-    return this.usersService.createRol(id, rol);
-  } */
-
   @Get()
   findAllUsers() {
     return this.usersService.findAllUsers();
   }
+
   @Get('email')
   findOneByEmail(@Query('email') email: string) {
     return this.usersService.findOneByEmail(email);
   }
+
   @Get(':id')
   findOneById(@Param('id') id: string) {
     return this.usersService.findOneById(id);
   }
 
+  @Patch('updateProfile/:id')
+  updateUserProfile(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.usersService.updateUserProfile(id, updateUserDto);
+  }
   @Patch(':id')
   updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.updateUser(id, updateUserDto);

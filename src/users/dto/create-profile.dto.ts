@@ -22,9 +22,4 @@ export class CreateProfileDto {
   @IsNotEmpty()
   dni: string;
 
-  @IsNotEmpty()
-  phone: string;
-
-  @IsNotEmpty()
-  gender: string;
 }

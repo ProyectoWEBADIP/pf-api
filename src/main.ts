@@ -16,7 +16,7 @@ async function bootstrap() {
   );
   // Configuración de encabezados CORS
   app.enableCors({
-    origin: 'https://backend-adipweb.onrender.com', // Cambia esto por el origen correcto
+    origin: 'https://front-deploy-adipweb.onrender.com', // Cambia esto por el origen correcto
     methods: 'GET, POST, PUT, DELETE, PATCH',
     allowedHeaders: 'Content-Type, Authorization',
   });

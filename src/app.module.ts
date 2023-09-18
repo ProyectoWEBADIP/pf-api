@@ -29,8 +29,7 @@ import { ConfigModule } from '@nestjs/config';
       {
         isGlobal:true,
       }
-    )
-    ,
+    ),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: `${process.env.PG_HOST}`,
@@ -40,14 +39,8 @@ import { ConfigModule } from '@nestjs/config';
       database: `${process.env.PG_DATABASE}`,
       entities: [__dirname + '/**/*.entity{.ts,.js}', Comments],
       synchronize: true,
-      ssl: process.env.POSTGRES_SSL === "true",
-      extra: {
-        ssl:
-          process.env.POSTGRES_SSL === "true"
-            ? {
-                rejectUnauthorized: false,
-              }
-            : null,
+      ssl: {
+        rejectUnauthorized: false, // Esto indica que no deseas rechazar certificados no autorizados.
       },
     }),
     UsersModule,

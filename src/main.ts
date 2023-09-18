@@ -14,12 +14,15 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  const urlOrigin = 'https://front-deploy-adipweb.onrender.com'
+  // const urlOrigin = 'http://localhost:5173'
+
   // Configuración de encabezados CORS
   app.enableCors({
-    origin: 'http://localhost:5173', // Cambia esto por el origen correcto
+    origin: urlOrigin, // Cambia esto por el origen correcto
     methods: 'GET, POST, PUT, DELETE, PATCH',
-    allowedHeaders: 'Content-Type, Authorization',
+    allowedHeaders: 'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token',
   });
-  await app.listen(3001);
+  await app.listen(3001 || parseInt(process.env.PG_PORT));
 }
 bootstrap();

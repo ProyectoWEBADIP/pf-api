@@ -1,4 +1,14 @@
-import { IsNotEmpty, IsString, MaxLength, IsUrl } from 'class-validator';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  IsNotEmpty,
+  IsString,
+  MaxLength,
+  IsUrl,
+  IsNumber,
+  IsArray,
+  ArrayMinSize,
+  IsBoolean,
+} from 'class-validator';
 
 export class CreateNoticeDto {
   @IsNotEmpty()
@@ -7,7 +17,6 @@ export class CreateNoticeDto {
 
   @IsNotEmpty()
   @IsString()
-  @MaxLength(250)
   content: string;
 
   @IsNotEmpty()
@@ -16,6 +25,18 @@ export class CreateNoticeDto {
 
   @IsNotEmpty()
   @IsString()
-  @MaxLength(125)
   resume: string;
+
+  @IsArray()
+  @ArrayMinSize(1)
+  @IsNumber({}, { each: true })
+  categoryIds: number[];
+
+  @IsNotEmpty()
+  @IsBoolean()
+  active: boolean;
+
+  @IsNotEmpty()
+  @IsString()
+  user_id: string;
 }

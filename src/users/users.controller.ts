@@ -4,14 +4,15 @@ import {
   Get,
   Post,
   Body,
+  Query,
   Patch,
   Param,
-  Delete,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateProfileDto } from './dto/create-profile.dto';
+/* import { CreateRolDto } from 'src/roles/dto/create-rol.dto'; */
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -20,15 +21,25 @@ export class UsersController {
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
   }
+
   @Post(':id/profile')
   createProfile(@Param('id') id: string, @Body() profile: CreateProfileDto) {
     return this.usersService.createProfile(id, profile);
   }
+
+  /*  @Post(':id/rol')
+  createRol(@Param('id') id: string, @Body() rol: CreateRolDto) {
+    return this.usersService.createRol(id, rol);
+  } */
+
   @Get()
   findAllUsers() {
     return this.usersService.findAllUsers();
   }
-
+  @Get('email')
+  findOneByEmail(@Query('email') email: string) {
+    return this.usersService.findOneByEmail(email);
+  }
   @Get(':id')
   findOneById(@Param('id') id: string) {
     return this.usersService.findOneById(id);
@@ -37,10 +48,5 @@ export class UsersController {
   @Patch(':id')
   updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.updateUser(id, updateUserDto);
-  }
-
-  @Delete(':id')
-  removeUser(@Param('id') id: string) {
-    return this.usersService.removeUser(id);
   }
 }

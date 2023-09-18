@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
-import { UseGuards, applyDecorators } from '@nestjs/common';
-import { Role } from '../enums/roles.enum';
+import {  UseGuards, applyDecorators } from '@nestjs/common';
+import { Role } from '../../common/enums/roles.enum';
 import { Roles } from './roles.decorator';
 import { AuthGuard } from '../guard/auth.guard';
 import { RolesGuard } from '../guard/roles.guard';

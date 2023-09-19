@@ -20,16 +20,21 @@ import { LigasModule } from './ligas/ligas.module';
 import { CategoryModule } from './category/category.module';
 import { PartidosModule } from './partidos/partidos.module';
 import { NotificationsModule } from './notifications/notifications.module';
+import { ConfigModule } from '@nestjs/config';
+import { PagoModule } from './Pagos/pago.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
-      host: 'ep-wandering-moon-99222123.us-east-2.aws.neon.tech',
-      username: 'fl0user',
-      password: 'DzqKnH9WjL7h',
-      port: 5432,
-      database: 'adipdb',
+      host: `${process.env.PG_HOST}`,
+      username: `${process.env.POSTGRES_USER}`,
+      password: `${process.env.PG_PASSWORD}`,
+      port: parseInt(process.env.PG_PORT),
+      database: `${process.env.PG_DATABASE}`,
       entities: [__dirname + '/**/*.entity{.ts,.js}', Comments],
       synchronize: true,
       ssl: {
@@ -49,6 +54,7 @@ import { NotificationsModule } from './notifications/notifications.module';
     CategoryModule,
     PartidosModule,
     NotificationsModule,
+    PagoModule,
   ],
   controllers: [AppController],
   providers: [AppService],

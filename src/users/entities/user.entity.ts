@@ -16,6 +16,7 @@ import { Comments } from 'src/comments/entities/comments.entity';
 import { Role } from '../../common/enums/roles.enum';
 import { Sponsor } from 'src/sponsors/entities/sponsor.entity';
 import { Partido } from 'src/partidos/entities/partido.entity';
+import { Pago } from 'src/Pagos/entities/pago.entity';
 
 @Entity({ name: 'users' })
 export class User {
@@ -68,4 +69,7 @@ export class User {
 
   @OneToMany(() => Partido, (partido) => partido.user)
   partido: Partido[];
+
+  @OneToMany(() => Pago, (pagos) => pagos.user)
+  pagos: Pago[];
 }

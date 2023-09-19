@@ -19,6 +19,7 @@ import {
   UpdateRoleDesactiveUserDto,
   UserUpdatedRowsDto,
 } from 'src/auth/dto/update-role-desactive-user.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 
 @Injectable()
 export class UsersService {
@@ -60,7 +61,11 @@ export class UsersService {
         email,
       },
     });
+  if(user){
     return user;
+  } else {
+    return 'Correo electrónico inexistente.'
+  }
   }
 
   async findByEmailWhitPassword(email: string) {
@@ -103,6 +108,18 @@ export class UsersService {
     } else {
       return new HttpException(
         'No se encontró al usuario.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+  }
+  async updateUserProfile(id: string, userFields: UpdateProfileDto) {
+    const profileFound = await this.profileRepository.findOneById(id);
+    if (profileFound) {
+      await this.profileRepository.update(id, userFields);
+      return `Tus datos fueron actualizados con éxito.`;
+    } else {
+      return new HttpException(
+        'No se encontró el perfil del usuario.',
         HttpStatus.NOT_FOUND,
       );
     }

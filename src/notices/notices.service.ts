@@ -16,20 +16,6 @@ export class NoticesService {
     private categoriesService: CategoriesService,
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
-
-  // async createNotice(notice: CreateNoticeDto) {
-  //   const notiFoun = await this.noticeRepository.findOne({
-  //     where: { title: notice.title },
-  //   });
-
-  //   if (notiFoun) {
-  //     throw new HttpException('Notice already exist', HttpStatus.CONFLICT);
-  //   }
-
-  //   const newNotice = this.noticeRepository.create(notice);
-  //   return this.noticeRepository.save(newNotice);
-  // }
-
   async getNotices() {
     try {
       const notices = await this.noticeRepository.find({
@@ -77,10 +63,6 @@ export class NoticesService {
     }
     return noticeFound;
   }
-  // async deletNotice(id: number) {
-  //   const noticeFound = await this.noticeRepository.find({
-  //     where: { id },
-  //   });
 
   async updateNoticeStatus(id: number, updateNoticeStatusDto: UpdateNoticeDto) {
     const noticeFound = await this.noticeRepository.findOne({ where: { id } });

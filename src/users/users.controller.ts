@@ -33,6 +33,7 @@ export class UsersController {
     return this.usersService.findAllUsers();
   }
 
+
   @Get('email')
   findOneByEmail(@Query('email') email: string) {
     return this.usersService.findOneByEmail(email);

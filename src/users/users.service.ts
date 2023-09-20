@@ -20,6 +20,7 @@ import {
   UserUpdatedRowsDto,
 } from 'src/auth/dto/update-role-desactive-user.dto';
 import { UpdateProfileDto } from './dto/update-profile.dto';
+import { UpdateSaldoDto } from './dto/update-saldo.dto';
 
 @Injectable()
 export class UsersService {
@@ -61,11 +62,11 @@ export class UsersService {
         email,
       },
     });
-  if(user){
-    return user;
-  } else {
-    return 'Correo electrónico inexistente.'
-  }
+    if (user) {
+      return user;
+    } else {
+      return 'Correo electrónico inexistente.';
+    }
   }
 
   async findByEmailWhitPassword(email: string) {
@@ -124,6 +125,10 @@ export class UsersService {
       );
     }
   }
+  async updateSaldo({ id, saldo }:{id:string, saldo:UpdateSaldoDto}) {
+      return await this.profileRepository.update(id, saldo);
+    }
+
   async updateUserFromAdmin(id: string, userFields: UserUpdatedRowsDto) {
     const userFound = await this.userRepository.findOneById(id);
     if (userFound) {

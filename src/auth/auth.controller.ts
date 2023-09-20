@@ -27,6 +27,7 @@ import {
 } from './dto/update-role-desactive-user.dto';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { CreateUserFromAdminDto } from './dto/create-user-admin.dto';
+import { UpdateSaldoDto } from '../users/dto/update-saldo.dto';
 // extiende todo lo que viene por request de express(como el body, los params y eso) y le injecto la propiedad user con las propiedades email y role.
 interface RequestWhitUser extends Request {
   user: { email: string; role: string };

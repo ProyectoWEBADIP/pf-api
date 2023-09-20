@@ -17,10 +17,34 @@ export class RolesService {
     private notificationRepository: Repository<Notification>,
   ) {}
 
-  async createRol(rolDto: CreateRolDto) {
-    const rolFound = await this.rolRepository.findOne({
+  async createRol(createDto: CreateRolDto) {
+    try {
+      const { notification_id, ...rolData } = createDto;
+
+      const notification = await this.notificationRepository.findOne({
+        where: { id: notification_id },
+      });
+      if (!notification) {
+        throw new HttpException(
+          'Notificacion no encontrada',
+          HttpStatus.NOT_FOUND,
+        );
+      }
+
+      const newRol = new Rol(
+        rolData.title,
+        rolData.description,
+        rolData.active,
+        notification,
+      );
+      await this.rolRepository.save(newRol);
+      return newRol;
+    } catch (error) {
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    /* const rolFound = await this.rolRepository.findOne({
       where: {
-        title: rolDto.title,
+        title: createDto.title,
       },
     });
 
@@ -28,8 +52,8 @@ export class RolesService {
       throw new HttpException('Rol ya existe', HttpStatus.CONFLICT);
     }
 
-    const newRol = this.rolRepository.create(rolDto);
-    return await this.rolRepository.save(newRol);
+    const newRol = this.rolRepository.create(createDto);
+    return await this.rolRepository.save(newRol); */
   }
 
   getRoles() {
@@ -61,12 +85,30 @@ export class RolesService {
   async updateRol(id: number, RolDto: UpdateRolDto) {
     const rolFound = await this.rolRepository.findOne({
       where: { id },
+      relations: ['notification'],
     });
 
     if (!rolFound) {
       return new HttpException('Rol no encontrado', HttpStatus.NOT_FOUND);
     }
-    const updateRol = Object.assign(rolFound, RolDto);
-    return this.rolRepository.save(updateRol);
+    const { notification_id, ...rolData } = RolDto;
+
+    const notification = await this.notificationRepository.findOne({
+      where: { id: notification_id },
+    });
+
+    if (!notification) {
+      throw new HttpException(
+        'notificacion no encontrada',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    rolFound.title = rolData.title;
+    rolFound.description = rolData.description;
+    rolFound.active = rolData.active;
+    rolFound.notification = notification;
+
+    return this.rolRepository.save(rolFound);
   }
 }

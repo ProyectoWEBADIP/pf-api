@@ -17,8 +17,8 @@ export class PaymentService {
         },
       ],
       back_urls: {
-        success: 'http://localhost:5173',
-        failure: 'http://localhost:5173',
+        success: 'https://front-deploy-adipweb.onrender.com',
+        failure: 'https://front-deploy-adipweb.onrender.com',
         pending: '',
       },
     };

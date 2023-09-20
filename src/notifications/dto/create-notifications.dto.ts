@@ -1,5 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { IsBoolean, IsNotEmpty } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber } from 'class-validator';
 
 export class CreateNotificationDto {
   @IsNotEmpty()
@@ -11,4 +11,8 @@ export class CreateNotificationDto {
   @IsNotEmpty()
   @IsBoolean()
   active: boolean;
+
+  @IsNotEmpty()
+  @IsNumber()
+  rol_id: number;
 }

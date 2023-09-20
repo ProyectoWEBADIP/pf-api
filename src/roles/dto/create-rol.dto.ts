@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsString } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
 
 export class CreateRolDto {
   @IsNotEmpty()
@@ -12,4 +12,8 @@ export class CreateRolDto {
   @IsNotEmpty()
   @IsBoolean()
   active: boolean;
+
+  @IsNotEmpty()
+  @IsNumber()
+  notification_id: number;
 }

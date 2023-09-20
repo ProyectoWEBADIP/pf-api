@@ -21,15 +21,13 @@ import { CategoryModule } from './category/category.module';
 import { PartidosModule } from './partidos/partidos.module';
 import { NotificationsModule } from './notifications/notifications.module';
 import { ConfigModule } from '@nestjs/config';
-
+import { PagoModule } from './Pagos/pago.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(
-      {
-        isGlobal:true,
-      }
-    ),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: `${process.env.PG_HOST}`,
@@ -56,6 +54,7 @@ import { ConfigModule } from '@nestjs/config';
     CategoryModule,
     PartidosModule,
     NotificationsModule,
+    PagoModule,
   ],
   controllers: [AppController],
   providers: [AppService],

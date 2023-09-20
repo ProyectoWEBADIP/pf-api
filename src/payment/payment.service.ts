@@ -17,8 +17,8 @@ export class PaymentService {
         },
       ],
       back_urls: {
-        success: 'http://localhost:5173',
-        failure: 'http://localhost:5173',
+        success: 'http://localhost:5173/login/SignUp',
+        failure: 'http://localhost:5173/login',
         pending: '',
       },
     };

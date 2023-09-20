@@ -114,7 +114,7 @@ export class AuthService {
     }
 
   }
-
+  
   async updateRoleOrDesactivateUser({
     id,
     action,

@@ -31,6 +31,8 @@ export class Profile {
   @Column()
   dni: string;
 
+  @Column({ default:0,nullable:true})
+  saldo: number;
   @OneToOne(() => User, (user) => user.profile)
   user: User;
 }

@@ -12,8 +12,6 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateProfileDto } from './dto/create-profile.dto';
-import { UpdateSaldoDto } from './dto/update-saldo.dto';
-/* import { CreateRolDto } from 'src/roles/dto/create-rol.dto'; */
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -45,13 +43,10 @@ export class UsersController {
   @Patch('updateSaldo/:id')
   updateUserSaldo(
     @Param('id') id: string,
-    @Body() saldo: UpdateSaldoDto,
+    @Body() saldo: number,
   ) {
-    const data = {
-      id,
-      saldo,
-    };
-    return this.usersService.updateSaldo(data);
+
+    return this.usersService.updateSaldo(id,saldo);
   }
   @Patch('updateProfile/:id')
   updateUserProfile(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {

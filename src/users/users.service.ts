@@ -61,13 +61,20 @@ export class UsersService {
         email,
       },
     });
-  if(user){
-    return user;
-  } else {
-    return 'Correo electrónico inexistente.'
+    if (user) {
+      return user;
+    } else {
+      return 'Correo electrónico inexistente.';
+    }
   }
+  async findOneByEmailForGoogle(email: string) {
+    const user = await this.userRepository.findOne({
+      where: {
+        email,
+      },
+    });
+   return user;
   }
-
   async findByEmailWhitPassword(email: string) {
     return this.userRepository.findOne({
       where: {
@@ -91,10 +98,10 @@ export class UsersService {
       relations: ['profile', 'notice.user', 'sponsor.user'],
     });
     if (user) {
-      return user;
-    } else {
-      return new HttpException('User not found.', HttpStatus.NOT_FOUND);
-    }
+      return user;}
+    // } else {
+    //   return new HttpException('User not found.', HttpStatus.NOT_FOUND);
+    // }
   }
 
   async updateUser(id: string, userFields: UpdateUserDto) {
@@ -124,6 +131,14 @@ export class UsersService {
       );
     }
   }
+  async updateSaldo(id,saldo) {
+    const userFound = await this.findOneById(id);
+    if(userFound){
+    const userProfileId = userFound.profile.id;
+    return await this.profileRepository.update(userProfileId, saldo);
+    }
+  }
+
   async updateUserFromAdmin(id: string, userFields: UserUpdatedRowsDto) {
     const userFound = await this.userRepository.findOneById(id);
     if (userFound) {
@@ -154,23 +169,4 @@ export class UsersService {
 
     return await this.userRepository.save(userFound);
   }
-
-  /* async createRol(id: string, rol: CreateRolDto) {
-    let userFound: User;
-    try {
-      userFound = await this.userRepository.findOne({
-        where: {
-          id,
-        },
-      });
-    } catch (error) {
-      return new HttpException('Usuario no encontrado.', HttpStatus.NOT_FOUND);
-    }
-    const newRol = this.rolRepository.create(rol);
-    const savedRol = await this.rolRepository.save(newRol);
-    userFound.rol = savedRol;
-    userFound.active = true; //Lo pongo en active, quiere decir que ya tiene un perfil.
-
-    return await this.userRepository.save(userFound);
-  } */
 }

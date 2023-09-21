@@ -12,7 +12,6 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { CreateProfileDto } from './dto/create-profile.dto';
-/* import { CreateRolDto } from 'src/roles/dto/create-rol.dto'; */
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
@@ -21,7 +20,6 @@ export class UsersController {
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
   }
-
   @Post(':id/profile')
   createProfile(@Param('id') id: string, @Body() profile: CreateProfileDto) {
     return this.usersService.createProfile(id, profile);
@@ -32,6 +30,7 @@ export class UsersController {
     return this.usersService.findAllUsers();
   }
 
+
   @Get('email')
   findOneByEmail(@Query('email') email: string) {
     return this.usersService.findOneByEmail(email);
@@ -41,7 +40,14 @@ export class UsersController {
   findOneById(@Param('id') id: string) {
     return this.usersService.findOneById(id);
   }
+  @Patch('updateSaldo/:id')
+  updateUserSaldo(
+    @Param('id') id: string,
+    @Body() saldo: number,
+  ) {
 
+    return this.usersService.updateSaldo(id,saldo);
+  }
   @Patch('updateProfile/:id')
   updateUserProfile(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.updateUserProfile(id, updateUserDto);

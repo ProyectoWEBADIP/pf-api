@@ -13,6 +13,18 @@ import { Notification } from 'src/notifications/entities/notification.entity';
 
 @Entity({ name: 'roles' })
 export class Rol {
+  constructor(
+    title: string,
+    description: string,
+    active: boolean,
+    notification: Notification,
+  ) {
+    this.title = title;
+    this.description = description;
+    this.active = active;
+    this.notification = notification;
+  }
+
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -40,5 +52,5 @@ export class Rol {
     joinColumn: { name: 'rol_id' },
     inverseJoinColumn: { name: 'notification_id' },
   })
-  notification: Notification[];
+  notification: Notification;
 }

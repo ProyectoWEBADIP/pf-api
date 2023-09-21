@@ -38,4 +38,8 @@ export class CreatePartidoDto {
 
   @IsString()
   visitor_goals: string;
+
+  @IsNotEmpty()
+  @IsString()
+  user_id: string;
 }

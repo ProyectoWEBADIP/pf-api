@@ -16,6 +16,7 @@ export class AuthService {
   ) {}
 
   async login({ email, password }: LoginDto) {
+    
     const userFound = await this.usersService.findByEmailWhitPassword(email);
     if (!userFound) {
       throw new HttpException(
@@ -45,7 +46,8 @@ export class AuthService {
 
   async registerUser({ email, password, username }: RegisterDto) {
     const userFound = await this.usersService.findOneByEmail(email);
-    if (typeof userFound ==='string') {
+    if (typeof userFound === 'string') {
+      console.log(email,"email")
       const registeredUser = await this.usersService.createUser({
         email,
         password: await bcryptjs.hash(password, 10),

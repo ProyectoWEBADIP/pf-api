@@ -14,8 +14,8 @@ async function bootstrap() {
       transform: true,
     }),
   );
-  const urlOrigin = 'https://front-deploy-adipweb.onrender.com'
-  // const urlOrigin = 'http://localhost:5173'
+  // const urlOrigin = 'https://front-deploy-adipweb.onrender.com'
+  const urlOrigin = 'http://localhost:5173'
 
   // Configuración de encabezados CORS
   app.enableCors({

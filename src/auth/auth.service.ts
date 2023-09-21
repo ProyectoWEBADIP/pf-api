@@ -72,6 +72,7 @@ export class AuthService {
     const password: string = email;
 
     if (typeof userFound === 'string') {
+      console.log('entro if')
       const username: string = updatedJwtPayload.name;
       await this.registerUser({ email, username, password });
       const access_token = await this.login({ email, password });
@@ -84,7 +85,7 @@ export class AuthService {
 
       return response;
     } else {
-      const access_token = await this.login({ email, password });
+      const access_token = await this.loginWithGoogle(email);
       const { id } = access_token;
       const response = {
         message: 'Iniciando sesión con tu cuenta de Google...',
@@ -96,6 +97,22 @@ export class AuthService {
 
     }
   }
+  async loginWithGoogle(email: string) {
+    const userFound = await this.usersService.findOneByEmailForGoogle(email);
+
+    const payload = {
+      id: userFound.id,
+      email: userFound.email,
+      role: userFound.role,
+    };
+    const access_token = await this.jwtService.signAsync(payload);
+    return {
+      access_token,
+      email,
+      id: userFound.id,
+    };
+  }
+
   async profile({ email, role }: { email: string; role: string }) {
     return await this.usersService.findOneByEmail(email);
     

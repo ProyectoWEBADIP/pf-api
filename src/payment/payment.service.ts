@@ -8,6 +8,8 @@ import * as mercadopago from 'mercadopago';
 @Injectable()
 export class PaymentService {
   async createPayment(req: CreatePaymentDto) {
+    const front_deploy_success = 'https://front-deploy-adipweb.onrender.com/#/success';
+    const local_url_success = 'http://localhost:5173/#/success';
     const preference = {
       items: [
         {
@@ -17,9 +19,9 @@ export class PaymentService {
         },
       ],
       back_urls: {
-        success: 'https://front-deploy-adipweb.onrender.com',
-        failure: 'https://front-deploy-adipweb.onrender.com',
-        pending: '',
+        success: local_url_success,
+        failure: local_url_success,
+        pending: local_url_success,
       },
     };
 
